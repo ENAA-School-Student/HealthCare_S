@@ -15,6 +15,8 @@ public class DossierMedical {
     private LocalDate dateCreation;
     @ManyToOne
     private Medecin medecin;
+    @OneToOne
+    private Patient patient;
 
 
 }
