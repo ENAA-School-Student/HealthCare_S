@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Setter
 public class RendezVous {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate dateRendezVous;
     private String statut;

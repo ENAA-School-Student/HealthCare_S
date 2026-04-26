@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 public class Medecin {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
     private String specialite;

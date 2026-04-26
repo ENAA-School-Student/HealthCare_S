@@ -1,4 +1,4 @@
-CREATE TABLE Patient (
+CREATE TABLE patient (
     ID BIGINT auto_increment primary key,
     nom VARCHAR(255),
     prenom VARCHAR(255),
@@ -10,7 +10,7 @@ CREATE TABLE Patient (
 );
 
 
-CREATE TABLE Medecin(
+CREATE TABLE medecin(
 
     ID         BIGINT auto_increment primary key,
     nom        VARCHAR(255),
@@ -22,7 +22,7 @@ CREATE TABLE Medecin(
 
 
 CREATE TABLE RendezVous (
-    ID BIGINT auto_increment primay key,
+    ID BIGINT auto_increment primary key,
     dateRendezVous DATE,
     statut VARCHAR(255),
     patient_id BIGINT,
@@ -33,14 +33,14 @@ CREATE TABLE RendezVous (
 );
 
 
-CREATE TABLE DossierMedical(
+CREATE TABLE dossierMedical(
       ID BIGINT auto_increment primary key,
       diagnostic varchar(255),
       observations varchar(255),
       dateCreation Date,
       patient_id  BIGINT UNIQUE ,
       medecin_id BIGINT,
-      foreign key (id) references Medecin(id),
+      foreign key (medecin_id ) references Medecin(id),
       foreign key (patient_id) references Patient(id)
 
 
