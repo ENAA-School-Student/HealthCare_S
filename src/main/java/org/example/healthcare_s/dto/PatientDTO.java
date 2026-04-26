@@ -1,5 +1,6 @@
 package org.example.healthcare_s.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,10 @@ import java.time.LocalDate;
 
 public class PatientDTO {
     private Long id;
+    @NotBlank(message="ce champs est obligatoire")
+
     private String nom;
+    @NotBlank(message="ce champs est obligatoire")
     private String prenom;
     private String telephone;
     private LocalDate dateNaissance;
