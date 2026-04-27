@@ -7,6 +7,8 @@ import org.example.healthcare_s.mapper.MedecinMapper;
 import org.example.healthcare_s.repository.MedecinRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MedecinService {
@@ -30,5 +32,18 @@ public class MedecinService {
         Medecin savedMedecin=medecinRepository.save(medecin);
         return medecinMapper.toDTO(savedMedecin);
 
+    }
+
+    public void supprimerMedecin(long id){
+        if(!medecinRepository.existsById(id)){
+            throw new RuntimeException("Erreur");
+        }
+        medecinRepository.deleteById(id);
+
+    }
+
+    public List<MedecinDTO>listerMedecins(){
+        List<Medecin>medecinList=medecinRepository.findAll();
+        return medecinMapper.toDTOList(medecinList);
     }
 }
