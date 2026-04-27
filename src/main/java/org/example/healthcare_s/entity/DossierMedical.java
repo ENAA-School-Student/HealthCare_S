@@ -9,12 +9,11 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="dossierMedical")
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name="dossier_medical")
 public class DossierMedical {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

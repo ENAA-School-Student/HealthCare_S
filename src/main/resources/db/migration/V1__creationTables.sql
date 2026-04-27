@@ -1,56 +1,43 @@
 CREATE TABLE patient (
-    ID BIGINT auto_increment primary key,
+    id BIGINT auto_increment primary key,
     nom VARCHAR(255),
     prenom VARCHAR(255),
     email VARCHAR(255),
     telephone VARCHAR(255),
     dateNaissance DATE
-
-
 );
 
 
 CREATE TABLE medecin(
 
-    ID         BIGINT auto_increment primary key,
+    id  BIGINT auto_increment primary key,
     nom        VARCHAR(255),
     specialite VARCHAR(255),
     email      VARCHAR(255),
     telephone  VARCHAR(255)
 
 );
+CREATE TABLE dossier_medical(
+                                id BIGINT auto_increment primary key,
+                                diagnostic varchar(255),
+                                observations varchar(255),
+                                dateCreation Date,
+                                medecin_id BIGINT,
+                                patient_id  BIGINT
+
+);
 
 
-CREATE TABLE RendezVous (
-    ID BIGINT auto_increment primary key,
+
+CREATE TABLE rendez_vous (
+    id BIGINT auto_increment primary key,
     dateRendezVous DATE,
     statut VARCHAR(255),
     patient_id BIGINT,
-    medecin_id  BIGINT,
-    foreign key (medecin_id) references Medecin(id),
-    foreign key (patient_id  ) references Patient(id)
-
+    medecin_id  BIGINT
 );
 
 
-CREATE TABLE dossierMedical(
-      ID BIGINT auto_increment primary key,
-      diagnostic varchar(255),
-      observations varchar(255),
-      dateCreation Date,
-      patient_id  BIGINT UNIQUE ,
-      medecin_id BIGINT,
-      foreign key (medecin_id ) references Medecin(id),
-      foreign key (patient_id) references Patient(id)
-
-
-
-
-
-
-
-
-);
 
 
 
