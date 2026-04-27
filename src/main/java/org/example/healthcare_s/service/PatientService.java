@@ -43,12 +43,16 @@ public class PatientService {
         List<Patient> clients=patientRepository.findAll();
         return patientMapper.toDTOList(clients);
     }
-    public void  SupprimerPatient(Long id){
+    public void  supprimerPatient(Long id){
         if(!patientRepository.existsById(id)){
             throw new RuntimeException("Erreur");
         }
 
         patientRepository.deleteById(id);
+    }
+    public PatientDTO consulterPatient(long id){
+        Patient patient=patientRepository.findById(id).orElseThrow();
+        return patientMapper.toDTO(patient);
     }
 
 }
