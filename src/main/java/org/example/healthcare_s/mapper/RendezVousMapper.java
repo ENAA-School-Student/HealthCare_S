@@ -12,6 +12,6 @@ import java.util.List;
 public interface RendezVousMapper {
     @Mapping(target = "id",ignore = true)
     RendezVousDTO toDTO(RendezVous rendezVous);
-     RendezVous toEntity(RendezVous rendezVous);
+     RendezVous toEntity(RendezVousDTO rendezVousDTO);
     List<RendezVousDTO> toDTOList(List<RendezVous> rendezVousList);
 }
