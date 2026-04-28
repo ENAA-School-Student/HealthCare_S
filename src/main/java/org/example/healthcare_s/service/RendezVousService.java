@@ -8,6 +8,7 @@ import org.example.healthcare_s.repository.RendezVousRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,21 @@ public class RendezVousService {
     public List<RendezVousDTO>listerRendezVous( ){
         List<RendezVous>rendezVousList=rendezVousRepository.findAll();
         return rendezVousMapper.toDTOList(rendezVousList);
+
+
+
+    }
+
+
+    public RendezVousDTO annulerRendezVous(long id,RendezVousDTO rendezVousDTO){
+        int rendezVousannule=rendezVousRepository.modifierStatutRendezVous(id);
+        if(rendezVousRepository.findById(id).isEmpty()){
+            throw new RuntimeException ("Erreur");
+        }
+        Optional<RendezVous> rendezVousreturne=rendezVousRepository.findById(id);
+         RendezVous rendezVous=rendezVousreturne.get();
+        return rendezVousMapper.toDTO(rendezVous);
+
 
 
 
