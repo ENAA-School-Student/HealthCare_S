@@ -41,7 +41,7 @@ public class   RendezVousController {
          return rendezVousService.annulerRendezVous(id,rendezVousDTO);
     }
     @GetMapping("/chercherParPatient/{id}")
-    public RendezVousDTO chercherparPatient(@PathVariable long id){
+    public List<RendezVousDTO>chercherparPatient(@PathVariable long id){
         return rendezVousService.rechercherRendezVousParPatient(id);
     }
 

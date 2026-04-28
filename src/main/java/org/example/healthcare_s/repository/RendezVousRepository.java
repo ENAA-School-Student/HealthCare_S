@@ -19,7 +19,7 @@ public interface RendezVousRepository  extends JpaRepository<RendezVous,Long> {
     int modifierStatutRendezVous(@Param("id")Long id );
 
 
-    @Query(value="SELECT * FROM rendez_vous r JOIN Patient p ON p.id= r.patient_id where p.id=:id",nativeQuery = true)
+    @Query(value="SELECT * FROM rendez_vous r where r.patient_id=:id",nativeQuery = true)
     List<RendezVous> rechercherRendezVousParPatient(@Param("id")long id);
     @Query(value="SELECT * FROM rendez_vous r JOIN Medecin m ON m.id=r.medecin_id where m.id=:id",nativeQuery = true)
     List<RendezVous>rechercherRendezVousParmedecin(@Param("id")long id);
