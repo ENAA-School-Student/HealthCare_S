@@ -36,13 +36,15 @@ public class RendezVousService {
 
     }
 
-    public RendezVousDTO modifierRendezVous(long id,RendezVousDTO rendezVousDTO,long medecin_id,long patient_id){
+    public RendezVousDTO modifierRendezVous(
+            long id,RendezVousDTO rendezVousDTO,
+            long medecin_id,long patient_id){
         if(!rendezVousRepository.existsById(id)){
             throw new RuntimeException("l'entite n'existe pas");
         }
         RendezVous rendezVous=rendezVousMapper.toEntity(rendezVousDTO);
         rendezVous.setId(id);
-        Medecin  medecin=rendezVousRepository.findById(medecin_id).orElseThrow();
+        Medecin  medecin=medecinRepository.findById(medecin_id).orElseThrow();
         Patient patient=patientRepository.findById(patient_id).orElseThrow();
         rendezVous.setMedecin(medecin);
         rendezVous.setPatient(patient);
@@ -63,7 +65,7 @@ public class RendezVousService {
         if(rendezVousRepository.findById(id).isEmpty()){
             throw new RuntimeException ("Erreur");
         }
-        RendezVous rendezVousreturne=rendezVousRepository.findById(id).get();
+        RendezVous rendezVousreturne = rendezVousRepository.findById(id).get();
         return rendezVousMapper.toDTO(rendezVousreturne);
 
     }

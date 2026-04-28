@@ -23,17 +23,20 @@ public class   RendezVousController {
 
     }
 
-    @PutMapping
-    public ResponseEntity<RendezVousDTO>modifierRendezVous(@PathVariable long id,@RequestBody RendezVousDTO rendezVousDTO){
-        return ResponseEntity.ok(rendezVousService.modifierRendezVous(id,rendezVousDTO));
+    @PutMapping("/{id}")
+    public ResponseEntity<RendezVousDTO>modifierRendezVous(
+            @PathVariable long id ,@RequestBody RendezVousDTO rendezVousDTO ,
+            @RequestParam  long medecin_id ,@RequestParam long patient_id
+            ){
+        return ResponseEntity.ok(rendezVousService.modifierRendezVous(id,rendezVousDTO,medecin_id,patient_id));
     }
     @GetMapping
     public List<RendezVousDTO> listerRendezVous(){
         return rendezVousService.listerRendezVous();
 
     }// a completer
-    @GetMapping("/annulerRendezVous/{id}")
-    public RendezVousDTO annulerRendezVous(long id,RendezVousDTO rendezVousDTO){
+    @PutMapping("/annulerRendezVous/{id}")
+    public RendezVousDTO annulerRendezVous(@PathVariable long id,@RequestBody RendezVousDTO rendezVousDTO){
          return rendezVousService.annulerRendezVous(id,rendezVousDTO);
     }
 
