@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("/rendezvous")
 public class   RendezVousController {
     private final RendezVousService rendezVousService;
-// a verifier il ya quelques problemes
     @PostMapping
     public RendezVousDTO creeRendezVous(@RequestParam long medecin_id,long patient_id,@Valid @RequestBody RendezVousDTO rendezVousDTO){
         return rendezVousService.creerRendezVous(medecin_id,patient_id,rendezVousDTO);
