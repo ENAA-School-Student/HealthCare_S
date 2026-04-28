@@ -76,6 +76,10 @@ public class RendezVousService {
 
     }
 
+    public List<RendezVousDTO>rechercherRendezVousParMedecin(long id){
+    List<RendezVous>rendezVousList=rendezVousRepository.rechercherRendezVousParmedecin(id);
+    return rendezVousList.stream().map(rendezVousMapper::toDTO).toList();
+}
 
 
 }
