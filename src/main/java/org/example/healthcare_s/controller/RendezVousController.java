@@ -34,11 +34,17 @@ public class   RendezVousController {
     public List<RendezVousDTO> listerRendezVous(){
         return rendezVousService.listerRendezVous();
 
-    }// a completer
+    }
+
     @PutMapping("/annulerRendezVous/{id}")
     public RendezVousDTO annulerRendezVous(@PathVariable long id,@RequestBody RendezVousDTO rendezVousDTO){
          return rendezVousService.annulerRendezVous(id,rendezVousDTO);
     }
+    @GetMapping("/chercherParPatient/{id}")
+    public RendezVousDTO chercherparPatient(@PathVariable long id){
+        return rendezVousService.rechercherRendezVousParPatient(id);
+    }
+
 
 
 

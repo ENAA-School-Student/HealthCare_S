@@ -70,9 +70,9 @@ public class RendezVousService {
 
     }
 
-    public List<RendezVousDTO> rechercherRendezVousParPatient(){
-        List<RendezVous> rendezVousList= rendezVousRepository.findAll();
-         return rendezVousMapper.toDTOList(rendezVousList);
+    public RendezVousDTO rechercherRendezVousParPatient(long id){
+        RendezVous rendezVous= rendezVousRepository.findById(id).get();
+         return rendezVousMapper.toDTO(rendezVous);
 
     }
 
