@@ -47,5 +47,13 @@ public class   RendezVousController {
 
 
 
+    @GetMapping("/rechercherparMedecin/{id}")
+    public List<RendezVousDTO>rechercherRendezVousparMedecin(@PathVariable long id){
+        return rendezVousService.rechercherRendezVousParMedecin(id);
+    }
+
+
+
+
 
 }
