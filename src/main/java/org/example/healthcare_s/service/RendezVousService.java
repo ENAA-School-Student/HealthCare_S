@@ -13,7 +13,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class RendezVousService {
-    private final RendezVousService rendezVousService;
     private final RendezVousMapper rendezVousMapper;
     private final RendezVousRepository rendezVousRepository;
 
@@ -55,6 +54,12 @@ public class RendezVousService {
 
 
 
+
+    }
+
+    public List<RendezVousDTO> rechercherRendezVousParPatient(){
+        List<RendezVous> rendezVousList= rendezVousRepository.findAll();
+         return rendezVousMapper.toDTOList(rendezVousList);
 
     }
 
