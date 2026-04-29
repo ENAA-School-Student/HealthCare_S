@@ -22,9 +22,11 @@ public class DossierMedical {
     private String observations;
     @Column(name = "date_creation")
     private LocalDate dateCreation;
+
     @ManyToOne
-    @JoinColumn(name="medecin_id" , unique = true)
+    @JoinColumn(name="medecin_id")
     private Medecin medecin;
+
     @OneToOne
     @JoinColumn(name="patient_id")
     private Patient patient;

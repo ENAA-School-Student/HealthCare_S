@@ -1,10 +1,8 @@
 package org.example.healthcare_s.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -12,10 +10,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
+@Data
 public class DossierMedicalDTO {
     private Long id;
+
+
     @NotBlank(message="le champs est obligatoire")
     private String diagnostic;
+
+
     @NotBlank(message="le champs est obligatoire")
     private String observations;
     private LocalDate dateCreation;
