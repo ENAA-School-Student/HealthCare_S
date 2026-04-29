@@ -20,9 +20,10 @@ public class DossierMedical {
     private Long id;
     private String diagnostic;
     private String observations;
+    @Column(name = "date_creation")
     private LocalDate dateCreation;
     @ManyToOne
-    @JoinColumn(name="medecin_id")
+    @JoinColumn(name="medecin_id" , unique = true)
     private Medecin medecin;
     @OneToOne
     @JoinColumn(name="patient_id")

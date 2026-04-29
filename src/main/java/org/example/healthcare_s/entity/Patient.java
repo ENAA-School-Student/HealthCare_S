@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,10 +24,10 @@ public class Patient {
     private String prenom;
     private String email;
     private String telephone;
-
+    @Column(name = "date_naissance")
     private LocalDate dateNaissance;
     @OneToMany(mappedBy = "patient")
-     private List<RendezVous> rendezVous;
+     private List<RendezVous> rendezVous = new ArrayList<>();
     @OneToOne(mappedBy = "patient")
     private DossierMedical dossierMedical;
 }

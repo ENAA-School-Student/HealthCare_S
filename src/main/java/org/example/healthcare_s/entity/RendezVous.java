@@ -18,6 +18,7 @@ public class RendezVous {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "date_rendez_vous")
     private LocalDate dateRendezVous;
     private String statut;
     @ManyToOne

@@ -19,4 +19,6 @@ public class DossierMedicalDTO {
     @NotBlank(message="le champs est obligatoire")
     private String observations;
     private LocalDate dateCreation;
+    private long medecin_id;
+    private long patient_id;
 }

@@ -14,6 +14,8 @@ import org.example.healthcare_s.repository.MedecinRepository;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 public class DossierMedicalService {
@@ -29,6 +31,7 @@ public class DossierMedicalService {
         Patient patient=patientRepository.findById(patient_id).get();
         dossierMedical.setMedecin(medecin);
         dossierMedical.setPatient(patient);
+        dossierMedical.setDateCreation(LocalDate.now());
         DossierMedical dossierMedicalSaved=dossierMedicalRepository.save(dossierMedical);
         return dossierMedicalMapper.toDTO(dossierMedicalSaved);
 
@@ -40,6 +43,7 @@ public class DossierMedicalService {
 
 
     }
+
 
 
 }
