@@ -23,63 +23,61 @@ public class RendezVousService {
     private final PatientRepository patientRepository;
 
 
-
-    public RendezVousDTO creerRendezVous(long medecin_id ,long patient_id ,RendezVousDTO rendezVousDTO){
-        RendezVous rendezVous=rendezVousMapper.toEntity(rendezVousDTO);
-        Medecin medecin= medecinRepository.findById(medecin_id).orElseThrow();
-        Patient patient=patientRepository.findById(patient_id).orElseThrow();
+    public RendezVousDTO creerRendezVous(long medecin_id, long patient_id, RendezVousDTO rendezVousDTO) {
+        RendezVous rendezVous = rendezVousMapper.toEntity(rendezVousDTO);
+        Medecin medecin = medecinRepository.findById(medecin_id).orElseThrow();
+        Patient patient = patientRepository.findById(patient_id).orElseThrow();
         rendezVous.setMedecin(medecin);
         rendezVous.setPatient(patient);
 
-        RendezVous savedRendezVous=rendezVousRepository.save(rendezVous);
+        RendezVous savedRendezVous = rendezVousRepository.save(rendezVous);
         return rendezVousMapper.toDTO(savedRendezVous);
 
     }
 
     public RendezVousDTO modifierRendezVous(
-            long id,RendezVousDTO rendezVousDTO,
-            long medecin_id,long patient_id){
-        if(!rendezVousRepository.existsById(id)){
+            long id, RendezVousDTO rendezVousDTO,
+            long medecin_id, long patient_id) {
+        if (!rendezVousRepository.existsById(id)) {
             throw new RuntimeException("l'entite n'existe pas");
         }
-        RendezVous rendezVous=rendezVousMapper.toEntity(rendezVousDTO);
+        RendezVous rendezVous = rendezVousMapper.toEntity(rendezVousDTO);
         rendezVous.setId(id);
-        Medecin  medecin=medecinRepository.findById(medecin_id).orElseThrow();
-        Patient patient=patientRepository.findById(patient_id).orElseThrow();
+        Medecin medecin = medecinRepository.findById(medecin_id).orElseThrow();
+        Patient patient = patientRepository.findById(patient_id).orElseThrow();
         rendezVous.setMedecin(medecin);
         rendezVous.setPatient(patient);
-        RendezVous savedRendezVous=rendezVousRepository.save(rendezVous);
+        RendezVous savedRendezVous = rendezVousRepository.save(rendezVous);
         return rendezVousMapper.toDTO(savedRendezVous);
     }
 
-    public List<RendezVousDTO>listerRendezVous( ){
-        List<RendezVous>rendezVousList=rendezVousRepository.findAll();
+    public List<RendezVousDTO> listerRendezVous() {
+        List<RendezVous> rendezVousList = rendezVousRepository.findAll();
         return rendezVousMapper.toDTOList(rendezVousList);
-
 
 
     }
 
-    public RendezVousDTO annulerRendezVous(long id,RendezVousDTO rendezVousDTO){
-        int rendezVousannule=rendezVousRepository.modifierStatutRendezVous(id);
-        if(rendezVousRepository.findById(id).isEmpty()){
-            throw new RuntimeException ("Erreur");
+    public RendezVousDTO annulerRendezVous(long id, RendezVousDTO rendezVousDTO) {
+        int rendezVousannule = rendezVousRepository.modifierStatutRendezVous(id);
+        if (rendezVousRepository.findById(id).isEmpty()) {
+            throw new RuntimeException("Erreur");
         }
         RendezVous rendezVousreturne = rendezVousRepository.findById(id).get();
         return rendezVousMapper.toDTO(rendezVousreturne);
 
     }
 
-    public List<RendezVousDTO> rechercherRendezVousParPatient(long id){
-        List <RendezVous> rendezVousList= rendezVousRepository.rechercherRendezVousParPatient(id);
-         return rendezVousList.stream().map(rendezVousMapper::toDTO).toList();
+    public List<RendezVousDTO> rechercherRendezVousParPatient(long id) {
+        List<RendezVous> rendezVousList = rendezVousRepository.rechercherRendezVousParPatient(id);
+        return rendezVousList.stream().map(rendezVousMapper::toDTO).toList();
 
     }
 
-    public List<RendezVousDTO>rechercherRendezVousParMedecin(long id){
-    List<RendezVous>rendezVousList=rendezVousRepository.rechercherRendezVousParmedecin(id);
-    return rendezVousList.stream().map(rendezVousMapper::toDTO).toList();
-}
+    public List<RendezVousDTO> rechercherRendezVousParMedecin(long id) {
+        List<RendezVous> rendezVousList = rendezVousRepository.rechercherRendezVousParmedecin(id);
+        return rendezVousList.stream().map(rendezVousMapper::toDTO).toList();
+    }
 
 
 }
