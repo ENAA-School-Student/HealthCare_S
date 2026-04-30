@@ -1,7 +1,9 @@
 package org.example.healthcare_s.unit_testing;
 
+import org.example.healthcare_s.dto.DossierMedicalDTO;
 import org.example.healthcare_s.dto.PatientDTO;
 import org.example.healthcare_s.repository.MedecinRepository;
+import org.example.healthcare_s.service.DossierMedicalService;
 import org.example.healthcare_s.service.MedecinService;
 import org.example.healthcare_s.service.PatientService;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +21,8 @@ public class AutresServiceTest {
      private MedecinService medecinService;
     @Autowired
     private MedecinRepository medecinRepository;
+    @Autowired
+    private DossierMedicalService dossierMedicalService;
 
 
     @Test
@@ -45,6 +49,21 @@ public class AutresServiceTest {
        medecinService.supprimerMedecin(medecin_id);
        assertFalse(medecinRepository.existsById(medecin_id));
 
+
+    }
+
+
+    @Test
+    @DisplayName("test de Consultation d'un dossier médical")
+    void consulterDossierMedicale(){
+        long medecin_id= 2L;
+        long patient_id=11L;
+        DossierMedicalDTO dossierMedicalDTO = new DossierMedicalDTO();
+        dossierMedicalDTO.setObservations("tres malade");
+
+        DossierMedicalDTO dossierMedicalDTO1= dossierMedicalService.creeDossierMedical(medecin_id,patient_id,dossierMedicalDTO);
+        assertNotNull(dossierMedicalDTO1);
+        assertEquals("tres malade",dossierMedicalDTO1.getObservations());
 
     }
 
