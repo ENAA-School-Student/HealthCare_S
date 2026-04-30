@@ -1,20 +1,25 @@
 package org.example.healthcare_s.unit_testing;
 
 import org.example.healthcare_s.dto.PatientDTO;
-import org.example.healthcare_s.dto.RendezVousDTO;
+import org.example.healthcare_s.repository.MedecinRepository;
+import org.example.healthcare_s.service.MedecinService;
 import org.example.healthcare_s.service.PatientService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class PatientServiceTest {
+public class AutresServiceTest {
     @Autowired
     private PatientService patientService;
+    @Autowired
+     private MedecinService medecinService;
+    @Autowired
+    private MedecinRepository medecinRepository;
+
 
     @Test
     @DisplayName("test d'ajout d'un patient")
@@ -29,6 +34,20 @@ public class PatientServiceTest {
         assertEquals("Imane",patientDTO1.getNom());
 
     }
+
+
+
+    @Test
+    @DisplayName("tester suppression d'un medecin")
+    void supprimerMedecin(){
+        long medecin_id = 1L;
+
+       medecinService.supprimerMedecin(medecin_id);
+       assertFalse(medecinRepository.existsById(medecin_id));
+
+
+    }
+
 
 
 
