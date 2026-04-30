@@ -1,10 +1,9 @@
 package org.example.healthcare_s.unit_testing;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+
 import org.example.healthcare_s.dto.RendezVousDTO;
-import org.example.healthcare_s.entity.DossierMedical;
-import org.example.healthcare_s.entity.RendezVous;
+
 import org.example.healthcare_s.service.RendezVousService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,11 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
@@ -91,6 +88,19 @@ public class RendezVousTest {
         List<RendezVousDTO> rendezVous= rendezVousService.listerRendezVous();
         assertNotNull(rendezVous);
         assertEquals(1,rendezVous.size());
+
+
+
+
+    }
+    @Test
+    @DisplayName(" Rechercher rendez vous par patient")
+    void rendezVousPatient(){
+        long patient_id = 1L;
+        List<RendezVousDTO> rendezVousDTOList=rendezVousService.rechercherRendezVousParPatient(patient_id);
+        assertNotNull(rendezVousDTOList);
+        assertFalse(rendezVousDTOList.isEmpty());
+        assertEquals(1L,rendezVousDTOList.get(0).getPatient_id());
 
 
 
