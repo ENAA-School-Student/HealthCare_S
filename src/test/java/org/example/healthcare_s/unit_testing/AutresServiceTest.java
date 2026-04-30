@@ -1,6 +1,8 @@
 package org.example.healthcare_s.unit_testing;
 
+import jakarta.transaction.Transactional;
 import org.example.healthcare_s.dto.DossierMedicalDTO;
+import org.example.healthcare_s.dto.MedecinDTO;
 import org.example.healthcare_s.dto.PatientDTO;
 import org.example.healthcare_s.repository.MedecinRepository;
 import org.example.healthcare_s.service.DossierMedicalService;
@@ -14,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 public class AutresServiceTest {
     @Autowired
     private PatientService patientService;
@@ -44,7 +47,15 @@ public class AutresServiceTest {
     @Test
     @DisplayName("tester suppression d'un medecin")
     void supprimerMedecin(){
-        long medecin_id = 1L;
+
+        MedecinDTO medecinDTO= new MedecinDTO();
+        medecinDTO.setNom("Imane");
+
+        MedecinDTO medecinDTO1 = medecinService.ajouterMedecin(medecinDTO);
+
+
+
+        long medecin_id = medecinDTO1.getId();
 
        medecinService.supprimerMedecin(medecin_id);
        assertFalse(medecinRepository.existsById(medecin_id));
@@ -56,8 +67,13 @@ public class AutresServiceTest {
     @Test
     @DisplayName("test de Consultation d'un dossier médical")
     void consulterDossierMedicale(){
+        PatientDTO patientDTO= new PatientDTO();
+        patientDTO.setNom("imane");
+
+        PatientDTO patientDTO1=patientService.ajouterPatient(patientDTO);
+
         long medecin_id= 2L;
-        long patient_id=11L;
+        long patient_id=patientDTO1.getId();
         DossierMedicalDTO dossierMedicalDTO = new DossierMedicalDTO();
         dossierMedicalDTO.setObservations("tres malade");
 

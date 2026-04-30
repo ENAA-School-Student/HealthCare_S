@@ -25,7 +25,7 @@ public class RendezVousServiceTest {
     @Test
     @DisplayName("test de création de  rendezVous")
     void creeRendezVous(){
-        long medecin_id = 1L;
+        long medecin_id = 2L;
         long patient_id=1L;
 
         RendezVousDTO rendezVousDTO = new RendezVousDTO();
@@ -38,14 +38,14 @@ public class RendezVousServiceTest {
     @Test
     @DisplayName("test de modification de rendezVous")
     void modifierRendezVous(){
-        long medecin_id = 1L;
+        long medecin_id = 2L;
         long patient_id=1L;
         long rendezVous_id=2L;
         RendezVousDTO rendezVousDTO= new RendezVousDTO(
                 2L,
                 LocalDate.parse("2026-04-30"),
                 "annule",
-                 1L,
+                 2L,
                  1L
 
 
