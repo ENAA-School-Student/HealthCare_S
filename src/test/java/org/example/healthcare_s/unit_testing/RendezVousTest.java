@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.RendezVousDTO;
 import org.example.healthcare_s.entity.DossierMedical;
+import org.example.healthcare_s.entity.RendezVous;
 import org.example.healthcare_s.service.RendezVousService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -76,6 +79,22 @@ public class RendezVousTest {
         RendezVousDTO rendezVousDTO1=rendezVousService.annulerRendezVous(rendezvous_id,rendezVousDTO);
         assertNotNull(rendezVousDTO1);
         assertEquals("annule",rendezVousDTO.getStatut());
+    }
+
+
+
+    @Test
+    @DisplayName("test lister les rendezvous")
+    void listerRendezVous(){
+
+        //j'ai pas utilisé arrange parce que j'ai deja liste de rendezVous
+        List<RendezVousDTO> rendezVous= rendezVousService.listerRendezVous();
+        assertNotNull(rendezVous);
+        assertEquals(1,rendezVous.size());
+
+
+
+
     }
 
 
