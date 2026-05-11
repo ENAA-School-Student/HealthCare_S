@@ -28,5 +28,4 @@ public class Medecin {
     @OneToMany(mappedBy ="medecin")
     private List <DossierMedical> dossierMedical = new ArrayList<>();
 
-
 }

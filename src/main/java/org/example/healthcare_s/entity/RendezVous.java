@@ -9,6 +9,8 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
+//@Table(name="rendez_vous",uniqueConstraints =
+//@UniqueConstraint(columnNames = {"patient_id","medecin_id",id}) )
 @Table(name="rendez_vous")
 @NoArgsConstructor
 @AllArgsConstructor

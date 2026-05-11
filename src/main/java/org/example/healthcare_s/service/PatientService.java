@@ -2,9 +2,12 @@ package org.example.healthcare_s.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.example.healthcare_s.dto.DossierMedicalDTO;
 import org.example.healthcare_s.dto.PatientDTO;
+import org.example.healthcare_s.entity.DossierMedical;
 import org.example.healthcare_s.entity.Patient;
 import org.example.healthcare_s.mapper.PatientMapper;
+import org.example.healthcare_s.repository.DossierMedicalRepository;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,7 @@ public class PatientService {
         return patientMapper.toDTO(savedPatient);
 
     }
+
     public PatientDTO modifierPatient(long id,PatientDTO patientDTO){
         if (!patientRepository.existsById(id)){
             throw new EntityNotFoundException("Erreur ");

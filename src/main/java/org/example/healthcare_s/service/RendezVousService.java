@@ -59,10 +59,11 @@ public class RendezVousService {
     }
 
     public RendezVousDTO annulerRendezVous(long id, RendezVousDTO rendezVousDTO) {
-        int rendezVousannule = rendezVousRepository.modifierStatutRendezVous(id);
         if (rendezVousRepository.findById(id).isEmpty()) {
             throw new RuntimeException("Erreur");
         }
+        int rendezVousannule = rendezVousRepository.modifierStatutRendezVous(id);
+
         RendezVous rendezVousreturne = rendezVousRepository.findById(id).get();
         return rendezVousMapper.toDTO(rendezVousreturne);
 
