@@ -20,12 +20,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-     private Long id;
-     private String username;
-     private String password;
-     private String email;
+      private Long id;
+      private String username;
+      private String password;
+      private String email;
+      private String role;
 
-     public Collection<? extends GrantedAuthority> getAuthorities() {
+      public Collection<? extends GrantedAuthority> getAuthorities() {
          return new ArrayList<>();
 
      }
