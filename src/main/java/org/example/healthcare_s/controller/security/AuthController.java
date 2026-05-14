@@ -27,7 +27,7 @@ public class AuthController {
     public ResponseEntity<String>login(@RequestBody LoginUser user){
         return ResponseEntity.ok(authService.login(user.getEmail(),user.getPassword()));
     }
-
+ 
 
 
 
