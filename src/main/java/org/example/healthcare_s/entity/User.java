@@ -1,45 +1,53 @@
 package org.example.healthcare_s.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
 
-      private Long id;
-      private String username;
-      private String password;
-      private String email;
-      private String role;
+    private String username;
 
-      public Collection<? extends GrantedAuthority> getAuthorities() {
-         return new ArrayList<>();
+    private String password;
 
-     }
+    @Column(unique = true)
+    private String email;
+
+    private String role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role));
+    }
 
     @Override
     public String getPassword() {
         return password;
     }
 
-
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -61,9 +69,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
-
-
-
 }

@@ -25,10 +25,24 @@ public class AuthService {
     public String addUser(RegisterUser registerUser){
         User user = authMapper.toEntity(registerUser);
         user.setPassword(passwordEncoder.encode(registerUser.getPassword()));
+        
+        // Ensure the 'username' field is not blank for database constraints
+        if (registerUser.getUsername() == null || registerUser.getUsername().isBlank()) {
+            user.setUsername(registerUser.getEmail());
+        } else {
+            user.setUsername(registerUser.getUsername());
+        }
+
+        // Ensure role has ROLE_ prefix
+        String role = registerUser.getRole();
+        if (role != null && !role.startsWith("ROLE_")) {
+            user.setRole("ROLE_" + role.toUpperCase());
+        } else if (role != null) {
+            user.setRole(role.toUpperCase());
+        }
 
         userRepository.save(user);
-        String token=login(registerUser.getEmail(),registerUser.getPassword());
-        return token;
+        return login(registerUser.getEmail(), registerUser.getPassword());
     }
 
 

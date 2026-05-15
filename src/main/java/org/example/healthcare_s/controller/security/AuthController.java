@@ -1,5 +1,6 @@
 package org.example.healthcare_s.controller.security;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.userdto.LoginUser;
 import org.example.healthcare_s.dto.userdto.RegisterUser;
@@ -19,12 +20,12 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<String>register(@RequestBody RegisterUser user){
+    public ResponseEntity<String>register(@Valid @RequestBody RegisterUser user){
         return ResponseEntity.ok(authService.addUser(user));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String>login(@RequestBody LoginUser user){
+    public ResponseEntity<String>login(@Valid @RequestBody LoginUser user){
         return ResponseEntity.ok(authService.login(user.getEmail(),user.getPassword()));
     }
  
