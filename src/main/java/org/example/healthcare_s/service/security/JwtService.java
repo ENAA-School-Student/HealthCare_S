@@ -16,7 +16,7 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final String SECRET_KEY =
-            "my_super_secure_secret_key_for_jwt_2026_healthcare_app";
+            "who_gonna_knows";
 
     public String generateToken(UserDetails userDetails) {
 

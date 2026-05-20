@@ -10,8 +10,10 @@ import org.example.healthcare_s.mapper.PatientMapper;
 import org.example.healthcare_s.repository.DossierMedicalRepository;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -57,6 +59,12 @@ public class PatientService {
     public PatientDTO consulterPatient(long id){
         Patient patient=patientRepository.findById(id).orElseThrow();
         return patientMapper.toDTO(patient);
+    }
+
+    public Page<PatientDTO> findAllByOrderByNomDesc(Pageable pageable){
+        Patient patient= patientRepository.findAllByOrderByNomDesc(pageable);
+        return patientMapper.toDTOList(patient);
+
     }
 
 }
