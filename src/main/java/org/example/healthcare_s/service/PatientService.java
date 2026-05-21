@@ -11,9 +11,10 @@ import org.example.healthcare_s.repository.DossierMedicalRepository;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -60,9 +61,10 @@ public class PatientService {
         return patientMapper.toDTO(patient);
     }
 
-    public Page<PatientDTO> findAllByOrderByNomDesc(Pageable pageable){
-        Patient patient= patientRepository.findAllByOrderByNomDesc(pageable);
-        return patientMapper.toDTOList(patient);
+    public Page<PatientDTO> findAllByOrderByNomDesc(int size,int page){
+       Pageable pageable = PageRequest.of(page, size);
+        Page<Patient> patients= patientRepository.findAllByOrderByNomDesc(pageable);
+        return patients.map(patientMapper::toDTO);
 
     }
 

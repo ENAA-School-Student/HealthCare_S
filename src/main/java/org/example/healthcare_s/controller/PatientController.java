@@ -7,9 +7,7 @@ import org.example.healthcare_s.entity.Patient;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.example.healthcare_s.service.PatientService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedModel;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,13 +43,13 @@ public class PatientController {
         return ResponseEntity.ok(patientService.consulterPatient(id));
    }
 
-    @GetMapping
-    ResponseEntity<Page<Patient>> findAllPatientByNom(
+    @GetMapping("/pagination")
+    ResponseEntity<Page<PatientDTO>> findAllPatientByNom(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "2") int size
     ) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Patient> patients = patientRepository.findAllByOrderByNomDesc(pageable);
+
+        Page<PatientDTO> patients = patientService.findAllByOrderByNomDesc(size,page);
         return ResponseEntity.ok(patients);
     }
 

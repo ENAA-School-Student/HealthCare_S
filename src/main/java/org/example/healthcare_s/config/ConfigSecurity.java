@@ -34,6 +34,7 @@ public class ConfigSecurity {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/patients/**").permitAll()
                         .anyRequest().authenticated()// jwtAuthFilter
                 )
                 .sessionManagement(sess -> sess
