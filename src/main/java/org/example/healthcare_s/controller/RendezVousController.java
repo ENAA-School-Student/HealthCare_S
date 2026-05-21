@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.RendezVousDTO;
 import org.example.healthcare_s.entity.RendezVous;
 import org.example.healthcare_s.service.RendezVousService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -50,6 +52,17 @@ public class   RendezVousController {
     @GetMapping("/rechercherparMedecin/{id}")
     public List<RendezVousDTO>rechercherRendezVousparMedecin(@PathVariable long id){
         return rendezVousService.rechercherRendezVousParMedecin(id);
+    }
+
+    @GetMapping("/rendezvousDate")
+    ResponseEntity<Page<RendezVousDTO>> findAllPatientByNom(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam LocalDate date
+    ) {
+
+        Page<RendezVousDTO> rendezvous = rendezVousService.findAllOrderByDate(page, size, date);
+        return ResponseEntity.ok(rendezvous);
     }
 
 

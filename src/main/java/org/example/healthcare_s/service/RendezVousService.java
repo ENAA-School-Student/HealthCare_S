@@ -9,8 +9,12 @@ import org.example.healthcare_s.mapper.RendezVousMapper;
 import org.example.healthcare_s.repository.MedecinRepository;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.example.healthcare_s.repository.RendezVousRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +82,13 @@ public class RendezVousService {
     public List<RendezVousDTO> rechercherRendezVousParMedecin(long id) {
         List<RendezVous> rendezVousList = rendezVousRepository.rechercherRendezVousParmedecin(id);
         return rendezVousList.stream().map(rendezVousMapper::toDTO).toList();
+    }
+
+    public Page<RendezVousDTO>findAllOrderByDate(int page, int size, LocalDate date ){
+        Pageable pageable= PageRequest.of(page, size);
+        Page<RendezVous> rendezVous=rendezVousRepository.findAllOrderByDate(date,pageable);
+        return rendezVous.map(rendezVousMapper::toDTO);
+
     }
 
 
