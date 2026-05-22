@@ -84,9 +84,9 @@ public class RendezVousService {
         return rendezVousList.stream().map(rendezVousMapper::toDTO).toList();
     }
 
-    public Page<RendezVousDTO>findAllOrderByDate(int page, int size, LocalDate date ){
+    public Page<RendezVousDTO>findAllOrderByDate(LocalDate date ,int page, int size){
         Pageable pageable= PageRequest.of(page, size);
-        Page<RendezVous> rendezVous=rendezVousRepository.findAllOrderByDate(date,pageable);
+        Page<RendezVous> rendezVous=rendezVousRepository.findAllOrderByDateRendezVous(date,pageable);
         return rendezVous.map(rendezVousMapper::toDTO);
 
     }

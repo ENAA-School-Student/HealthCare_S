@@ -3,12 +3,9 @@ package org.example.healthcare_s.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.RendezVousDTO;
-import org.example.healthcare_s.entity.RendezVous;
 import org.example.healthcare_s.service.RendezVousService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -47,8 +44,6 @@ public class   RendezVousController {
         return rendezVousService.rechercherRendezVousParPatient(id);
     }
 
-
-
     @GetMapping("/rechercherparMedecin/{id}")
     public List<RendezVousDTO>rechercherRendezVousparMedecin(@PathVariable long id){
         return rendezVousService.rechercherRendezVousParMedecin(id);
@@ -61,7 +56,7 @@ public class   RendezVousController {
             @RequestParam LocalDate date
     ) {
 
-        Page<RendezVousDTO> rendezvous = rendezVousService.findAllOrderByDate(page, size, date);
+        Page<RendezVousDTO> rendezvous = rendezVousService.findAllOrderByDate(date, page, size);
         return ResponseEntity.ok(rendezvous);
     }
 

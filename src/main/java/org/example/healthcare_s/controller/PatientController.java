@@ -3,7 +3,6 @@ package org.example.healthcare_s.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.PatientDTO;
-import org.example.healthcare_s.entity.Patient;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.example.healthcare_s.service.PatientService;
 import org.springframework.data.domain.Page;
@@ -43,13 +42,24 @@ public class PatientController {
         return ResponseEntity.ok(patientService.consulterPatient(id));
    }
 
-    @GetMapping("/PatientsNom")
-    ResponseEntity<Page<PatientDTO>> findAllPatientByNom(
+    @GetMapping("/PatientsNomDec")
+    ResponseEntity<Page<PatientDTO>> findAllPatientByNomDesc(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size
     ) {
 
         Page<PatientDTO> patients = patientService.findAllByOrderByNomDesc(size,page);
+        return ResponseEntity.ok(patients);
+    }
+
+    @GetMapping("/PatientsNom")
+    ResponseEntity<Page<PatientDTO>> findByNom(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam String nom
+    ) {
+
+        Page<PatientDTO> patients = patientService.findByNom(nom,size,page);
         return ResponseEntity.ok(patients);
     }
 
