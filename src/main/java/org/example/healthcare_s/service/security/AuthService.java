@@ -25,14 +25,11 @@ public class AuthService {
     public String addUser(RegisterUser registerUser){
         User user = authMapper.toEntity(registerUser);
         user.setPassword(passwordEncoder.encode(registerUser.getPassword()));
-        
         if (registerUser.getUsername() == null || registerUser.getUsername().isBlank()) {
             user.setUsername(registerUser.getEmail());
         } else {
             user.setUsername(registerUser.getUsername());
         }
-
-
         String role = registerUser.getRole();
         if (role != null && !role.startsWith("ROLE_")) {
             user.setRole("ROLE_" + role.toUpperCase());

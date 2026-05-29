@@ -1,4 +1,5 @@
 package org.example.healthcare_s.config;
+
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.service.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +35,7 @@ public class ConfigSecurity {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()// jwtAuthFilter
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
