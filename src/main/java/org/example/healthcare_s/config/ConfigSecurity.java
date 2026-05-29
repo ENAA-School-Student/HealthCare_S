@@ -35,7 +35,13 @@ public class ConfigSecurity {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+<<<<<<< HEAD
                         .anyRequest().authenticated()
+=======
+                        .requestMatchers("/medecins/**").permitAll()
+                        .requestMatchers("/patients/**").permitAll()
+                        .anyRequest().authenticated()// jwtAuthFilter
+>>>>>>> 3d88f00070ea212fb9475101db1e82d8ac4a687c
                 )
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

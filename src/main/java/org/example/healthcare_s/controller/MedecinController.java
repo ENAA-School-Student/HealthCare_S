@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.MedecinDTO;
 import org.example.healthcare_s.service.MedecinService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,19 @@ public class MedecinController {
     public List<MedecinDTO>listerMedecins(){
         return medecinService.listerMedecins();
     }
+
+    @GetMapping("/medecinsSpecialite")
+    public ResponseEntity <Page<MedecinDTO>>findAllBySpecialite(
+            @RequestParam(value="page",defaultValue = "0")int page,
+            @RequestParam(value="size",defaultValue = "20")int size,
+            @RequestParam String specialite
+    ){
+        Page<MedecinDTO>medecins=medecinService.findAllBySpecialite(page,size,specialite);
+        return ResponseEntity.ok(medecins);
+
+    }
+
+
 
 
 
