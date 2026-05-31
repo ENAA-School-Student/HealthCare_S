@@ -29,6 +29,8 @@ public interface RendezVousRepository  extends JpaRepository<RendezVous,Long> {
 
 
     Page<RendezVous>findAllOrderByDateRendezVous(LocalDate date, Pageable pageable);
+    Page<RendezVous>findAllByStatut(String statut ,Pageable pageable);
+
 
 
 }

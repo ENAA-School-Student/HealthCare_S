@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -88,6 +87,13 @@ public class RendezVousService {
         Pageable pageable= PageRequest.of(page, size);
         Page<RendezVous> rendezVous=rendezVousRepository.findAllOrderByDateRendezVous(date,pageable);
         return rendezVous.map(rendezVousMapper::toDTO);
+
+    }
+    public Page<RendezVousDTO>findRendezVousByStatut(String statut,int page ,int size){
+        Pageable pageable= PageRequest.of(page, size);
+        Page<RendezVous>rendezVous=rendezVousRepository.findAllByStatut(statut,pageable);
+        return rendezVous.map(rendezVousMapper::toDTO);
+
 
     }
 

@@ -59,6 +59,16 @@ public class   RendezVousController {
         Page<RendezVousDTO> rendezvous = rendezVousService.findAllOrderByDate(date, page, size);
         return ResponseEntity.ok(rendezvous);
     }
+    @GetMapping("/rendezvousStatut")
+    ResponseEntity<Page<RendezVousDTO>> findAllPatientByNom(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam String statut
+    ) {
+
+        Page<RendezVousDTO> rendezvous = rendezVousService.findRendezVousByStatut(statut, page, size);
+        return ResponseEntity.ok(rendezvous);
+    }
 
 
 
