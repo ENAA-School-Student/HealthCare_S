@@ -8,6 +8,7 @@ import org.example.healthcare_s.service.PatientService;
 import org.springframework.data.domain.Page;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class PatientController {
         return ResponseEntity.ok(patientService.ajouterPatient(patientDTO));
 
     }
+    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping
     public List<PatientDTO>listerPatients(){
         return patientService.listerPatients();
@@ -32,7 +35,9 @@ public class PatientController {
         return ResponseEntity.ok(patientService.modifierPatient(id,patientDTO));
 
     }
-   @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void>supprimerPatient(@PathVariable long id){
         patientService.supprimerPatient(id);
         return ResponseEntity.ok().build();

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+
 @RequestMapping("/dossierMedical")
 public class DossierMedicalController {
     private final DossierMedicalService dossierMedicalService;

@@ -32,12 +32,17 @@ public class ConfigSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/medecins/**").permitAll()
-                        .requestMatchers("/patients/**").permitAll()
-                        .anyRequest().authenticated()// jwtAuthFilter
-                )
+
+                        .authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/auth/").permitAll()
+                                .requestMatchers("/patients/").hasAnyRole("PATIENT", "ADMIN")
+                                .requestMatchers("/medecins/").hasAnyRole("MEDECIN", "ADMIN")
+                                .requestMatchers("/consultation/").hasAnyRole("DOCTOR")
+                                .requestMatchers("/dossierMedical/").hasAnyRole("DOCTOR","ADMIN")
+                                .requestMatchers("/rendezvous/").hasAnyRole("ADMIN","PATIENT")
+                                .anyRequest().authenticated()
+                        )
+
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
