@@ -3,6 +3,7 @@ package org.example.healthcare_s.service.security;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.userdto.RegisterUser;
 import org.example.healthcare_s.entity.User;
+import org.example.healthcare_s.enums.Role;
 import org.example.healthcare_s.mapper.security.AuthMapper;
 import org.example.healthcare_s.repository.security.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,7 @@ public class AuthService {
 
 
     public String addUser(RegisterUser registerUser){
+
         User user = authMapper.toEntity(registerUser);
         user.setPassword(passwordEncoder.encode(registerUser.getPassword()));
         if (registerUser.getUsername() == null || registerUser.getUsername().isBlank()) {
@@ -31,10 +33,18 @@ public class AuthService {
             user.setUsername(registerUser.getUsername());
         }
         String role = registerUser.getRole();
-        if (role != null && !role.startsWith("ROLE_")) {
-            user.setRole("ROLE_" + role.toUpperCase());
-        } else if (role != null) {
-            user.setRole(role.toUpperCase());
+        if (role != null) {
+            if (role.equalsIgnoreCase("doctor")){
+                user.setRole(Role.ROLE_DOCTOR);
+            }
+            if (role.equalsIgnoreCase("admin")){
+                user.setRole(Role.ROLE_ADMIN);
+            }
+            if (role.equalsIgnoreCase("patient")){
+                user.setRole(Role.ROLE_PATIENT);
+            }
+        } else if (role == null) {
+            throw  new RuntimeException("remplir le role");
         }
 
         userRepository.save(user);

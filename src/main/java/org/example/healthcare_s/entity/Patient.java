@@ -30,4 +30,5 @@ public class Patient {
      private List<RendezVous> rendezVous = new ArrayList<>();
     @OneToOne(mappedBy = "patient")
     private DossierMedical dossierMedical;
+
 }

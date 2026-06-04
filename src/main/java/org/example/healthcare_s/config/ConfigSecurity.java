@@ -34,12 +34,11 @@ public class ConfigSecurity {
                 .csrf(csrf -> csrf.disable())
 
                         .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/auth/").permitAll()
-                                .requestMatchers("/patients/").hasAnyRole("PATIENT", "ADMIN")
-                                .requestMatchers("/medecins/").hasAnyRole("MEDECIN", "ADMIN")
-                                .requestMatchers("/consultation/").hasAnyRole("DOCTOR")
-                                .requestMatchers("/dossierMedical/").hasAnyRole("DOCTOR","ADMIN")
-                                .requestMatchers("/rendezvous/").hasAnyRole("ADMIN","PATIENT")
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/patients/**").hasAnyRole("PATIENT", "ADMIN")
+                                .requestMatchers("/medecins/**").hasAnyRole("DOCTOR", "ADMIN")
+                                .requestMatchers("/dossierMedical/**").hasAnyRole("DOCTOR","ADMIN")
+                                .requestMatchers("/rendezvous/**").hasAnyRole("ADMIN","PATIENT")
                                 .anyRequest().authenticated()
                         )
 
