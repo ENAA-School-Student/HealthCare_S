@@ -45,6 +45,17 @@ public class MedecinController {
         return ResponseEntity.ok(medecins);
 
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/medecinParTelephone")
+    ResponseEntity<Page<MedecinDTO>>medecinsParTelephone(
+            @RequestParam(defaultValue ="0")int page,
+            @RequestParam(defaultValue ="20")int size,
+            @RequestParam(required = false)String telephone
+
+    ){
+        Page<MedecinDTO>medecinDTOS=medecinService.findbByTelephone(page, size, telephone);
+        return ResponseEntity.ok(medecinDTOS);
+    }
 
 
 

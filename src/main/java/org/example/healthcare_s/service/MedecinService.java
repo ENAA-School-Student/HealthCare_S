@@ -55,4 +55,11 @@ public class MedecinService {
         return medecins.map(medecinMapper::toDTO);
 
     }
+    public Page<MedecinDTO>findbByTelephone(int page,int size,String telephone){
+        Pageable pageable=PageRequest.of(page,size);
+        Page<Medecin>medecins=medecinRepository.findAllBySpecialite(telephone,pageable);
+        return medecins.map(medecinMapper::toDTO);
+
+
+    }
 }

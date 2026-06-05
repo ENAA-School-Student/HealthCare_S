@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MedecinRepository  extends JpaRepository<Medecin,Long> {
     Page<Medecin>findAllBySpecialite(String specialite, Pageable pageable);
+    Page<Medecin>findByTelephone(String telephone,Pageable pageable);
 }
