@@ -1,15 +1,11 @@
 package org.example.healthcare_s.service;
-
+import org.springframework.cache.annotation.Cacheable;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
-import org.example.healthcare_s.dto.DossierMedicalDTO;
+
 import org.example.healthcare_s.dto.PatientDTO;
-import org.example.healthcare_s.entity.DossierMedical;
 import org.example.healthcare_s.entity.Patient;
 import org.example.healthcare_s.mapper.PatientMapper;
-import org.example.healthcare_s.repository.DossierMedicalRepository;
 import org.example.healthcare_s.repository.PatientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,7 +39,10 @@ public class PatientService {
         return patientMapper.toDTO(patientUpdated);
 
     }
+//    @Cacheable(value="patients",key="'all'")
+    @Cacheable(value="patients")
     public List<PatientDTO>listerPatients(){
+        System.out.println("=========================================test Redis================");
         List<Patient> clients=patientRepository.findAll();
         return patientMapper.toDTOList(clients);
     }
