@@ -1,5 +1,6 @@
 package org.example.healthcare_s.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.DossierMedicalDTO;
@@ -13,9 +14,11 @@ import org.example.healthcare_s.mapper.RendezVousMapper;
 import org.example.healthcare_s.repository.DossierMedicalRepository;
 import org.example.healthcare_s.repository.MedecinRepository;
 import org.example.healthcare_s.repository.PatientRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -72,13 +75,28 @@ public class DossierMedicalService {
         DossierMedical dossierMedical1=dossierMedicalRepository.save(dossierMedical);
         return dossierMedicalMapper.toDTO(dossierMedical1);
     }
+    @Transactional
     public DossierMedicalDTO  ajouterdossierMedicalParPatient(long idPatient,DossierMedicalDTO dossierMedicalDTO){
         DossierMedical dossierMedical=dossierMedicalMapper.toEntity(dossierMedicalDTO);
         Patient patient=patientRepository.findById(idPatient).orElseThrow();
         dossierMedical.setPatient(patient);
+        dossierMedical.setDateCreation(LocalDate.now());
+
+        if (dossierMedicalDTO.getMedecin_id() != 0) {
+            Medecin medecin = medecinRepository.findById(dossierMedicalDTO.getMedecin_id()).orElse(null);
+            dossierMedical.setMedecin(medecin);
+        }
+
         DossierMedical dossierMedicalSaved=dossierMedicalRepository.save(dossierMedical);
         return dossierMedicalMapper.toDTO(dossierMedicalSaved);
 
+    }
+    @Cacheable(value="dossierMedicals",key="'all'")
+//    @Cacheable(value="patients")
+    public List<DossierMedicalDTO> listerDossiers(){
+        System.out.println("=========================================test Redis================");
+        List<DossierMedical> dossierMedicals=dossierMedicalRepository.findAll();
+        return dossierMedicalMapper.toDTOList(dossierMedicals);
     }
 
 

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class ConfigSecurity {
     private final JwtAuthFilter jwtAuthFilter;
 
@@ -35,10 +37,10 @@ public class ConfigSecurity {
 
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/patients/**").hasAnyRole("PATIENT", "ADMIN")
-                                .requestMatchers("/medecins/**").hasAnyRole("DOCTOR", "ADMIN")
-                                .requestMatchers("/dossierMedical/**").hasAnyRole("DOCTOR","ADMIN")
-                                .requestMatchers("/rendezvous/**").hasAnyRole("ADMIN","PATIENT")
+                                .requestMatchers("/patients", "/patients/**").hasAnyRole("PATIENT", "ADMIN")
+                                .requestMatchers("/medecins", "/medecins/**").hasAnyRole("DOCTOR", "ADMIN")
+                                .requestMatchers("/dossierMedical", "/dossierMedical/**").hasAnyRole("DOCTOR","ADMIN")
+                                .requestMatchers("/rendezvous", "/rendezvous/**").hasAnyRole("ADMIN","PATIENT")
                                 .anyRequest().authenticated()
                         )
 

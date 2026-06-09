@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -11,14 +12,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Data
-public class DossierMedicalDTO {
+public class DossierMedicalDTO  implements Serializable {
     private Long id;
-
-
     @NotBlank(message="le champs est obligatoire")
     private String diagnostic;
-
-
     @NotBlank(message="le champs est obligatoire")
     private String observations;
     private LocalDate dateCreation;
