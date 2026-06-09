@@ -14,6 +14,7 @@ import org.example.healthcare_s.mapper.RendezVousMapper;
 import org.example.healthcare_s.repository.DossierMedicalRepository;
 import org.example.healthcare_s.repository.MedecinRepository;
 import org.example.healthcare_s.repository.PatientRepository;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +77,7 @@ public class DossierMedicalService {
         return dossierMedicalMapper.toDTO(dossierMedical1);
     }
     @Transactional
+    @CacheEvict(value = "first", allEntries = true)
     public DossierMedicalDTO  ajouterdossierMedicalParPatient(long idPatient,DossierMedicalDTO dossierMedicalDTO){
         DossierMedical dossierMedical=dossierMedicalMapper.toEntity(dossierMedicalDTO);
         Patient patient=patientRepository.findById(idPatient).orElseThrow();
