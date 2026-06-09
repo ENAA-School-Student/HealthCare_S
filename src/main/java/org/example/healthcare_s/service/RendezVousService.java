@@ -9,6 +9,7 @@ import org.example.healthcare_s.mapper.RendezVousMapper;
 import org.example.healthcare_s.repository.MedecinRepository;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.example.healthcare_s.repository.RendezVousRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,6 +51,7 @@ public class RendezVousService {
         RendezVous savedRendezVous = rendezVousRepository.save(rendezVous);
         return rendezVousMapper.toDTO(savedRendezVous);
     }
+    @Cacheable(value="rendezvous",key="'all'")
 
     public List<RendezVousDTO> listerRendezVous() {
         List<RendezVous> rendezVousList = rendezVousRepository.findAll();

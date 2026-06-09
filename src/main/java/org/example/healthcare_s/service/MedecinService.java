@@ -5,6 +5,7 @@ import org.example.healthcare_s.dto.MedecinDTO;
 import org.example.healthcare_s.entity.Medecin;
 import org.example.healthcare_s.mapper.MedecinMapper;
 import org.example.healthcare_s.repository.MedecinRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,8 +42,9 @@ public class MedecinService {
         medecinRepository.deleteById(id);
 
     }
-
+    @Cacheable(value="medecins",key="'all'")
     public List<MedecinDTO>listerMedecins(){
+        System.out.println("==============lister medecins======================");
         List<Medecin>medecinList=medecinRepository.findAll();
         return medecinMapper.toDTOList(medecinList);
     }

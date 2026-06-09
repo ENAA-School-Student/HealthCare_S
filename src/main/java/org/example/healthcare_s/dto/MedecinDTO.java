@@ -7,11 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class MedecinDTO {
+public class MedecinDTO implements Serializable {
     private Long id;
     @NotBlank(message="le champs est obliagtoire")
     private String nom;

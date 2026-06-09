@@ -39,8 +39,8 @@ public class PatientService {
         return patientMapper.toDTO(patientUpdated);
 
     }
-//    @Cacheable(value="patients",key="'all'")
-    @Cacheable(value="patients")
+   @Cacheable(value="patients",key="'all'")
+//    @Cacheable(value="patients")
     public List<PatientDTO>listerPatients(){
         System.out.println("=========================================test Redis================");
         List<Patient> clients=patientRepository.findAll();

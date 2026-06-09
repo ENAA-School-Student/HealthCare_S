@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 
-public class PatientDTO {
+public class PatientDTO implements Serializable {
     private Long id;
     @NotBlank(message="ce champs est obligatoire")
 
