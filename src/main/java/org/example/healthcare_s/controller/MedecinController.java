@@ -35,27 +35,27 @@ public class MedecinController {
         return medecinService.listerMedecins();
     }
 
-    @GetMapping("/medecinsSpecialite")
-    public ResponseEntity <Page<MedecinDTO>>findAllBySpecialite(
-            @RequestParam(value="page",defaultValue = "0")int page,
-            @RequestParam(value="size",defaultValue = "20")int size,
-            @RequestParam String specialite
-    ){
-        Page<MedecinDTO>medecins=medecinService.findAllBySpecialite(page,size,specialite);
-        return ResponseEntity.ok(medecins);
-
-    }
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/medecinParTelephone")
-    ResponseEntity<Page<MedecinDTO>>medecinsParTelephone(
-            @RequestParam(defaultValue ="0")int page,
-            @RequestParam(defaultValue ="20")int size,
-            @RequestParam(required = false)String telephone
-
-    ){
-        Page<MedecinDTO>medecinDTOS=medecinService.findbByTelephone(page, size, telephone);
-        return ResponseEntity.ok(medecinDTOS);
-    }
+//    @GetMapping("/medecinsSpecialite")
+//    public ResponseEntity <Page<MedecinDTO>>findAllBySpecialite(
+//            @RequestParam(value="page",defaultValue = "0")int page,
+//            @RequestParam(value="size",defaultValue = "20")int size,
+//            @RequestParam String specialite
+//    ){
+//        Page<MedecinDTO>medecins=medecinService.findAllBySpecialite(page,size,specialite);
+//        return ResponseEntity.ok(medecins);
+//
+//    }
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @GetMapping("/medecinParTelephone")
+//    ResponseEntity<Page<MedecinDTO>>medecinsParTelephone(
+//            @RequestParam(defaultValue ="0")int page,
+//            @RequestParam(defaultValue ="20")int size,
+//            @RequestParam(required = false)String telephone
+//
+//    ){
+//        Page<MedecinDTO>medecinDTOS=medecinService.findbByTelephone(page, size, telephone);
+//        return ResponseEntity.ok(medecinDTOS);
+//    }
 
 
 

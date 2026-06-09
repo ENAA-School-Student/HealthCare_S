@@ -46,27 +46,27 @@ public class PatientController {
     public ResponseEntity<PatientDTO>consulterPatient(@PathVariable long id){
         return ResponseEntity.ok(patientService.consulterPatient(id));
    }
-
-    @GetMapping("/PatientsNomDec")
-    ResponseEntity<Page<PatientDTO>> findAllPatientByNomDesc(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "20") int size
-    ) {
-
-        Page<PatientDTO> patients = patientService.findAllByOrderByNomDesc(size,page);
-        return ResponseEntity.ok(patients);
-    }
-
-    @GetMapping("/PatientsNom")
-    ResponseEntity<Page<PatientDTO>> findByNom(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "20") int size,
-            @RequestParam String nom
-    ) {
-
-        Page<PatientDTO> patients = patientService.findByNom(nom,size,page);
-        return ResponseEntity.ok(patients);
-    }
+//
+//    @GetMapping("/PatientsNomDec")
+//    ResponseEntity<Page<PatientDTO>> findAllPatientByNomDesc(
+//            @RequestParam(value = "page", defaultValue = "0") int page,
+//            @RequestParam(value = "size", defaultValue = "20") int size
+//    ) {
+//
+//        Page<PatientDTO> patients = patientService.findAllByOrderByNomDesc(size,page);
+//        return ResponseEntity.ok(patients);
+//    }
+//
+//    @GetMapping("/PatientsNom")
+//    ResponseEntity<Page<PatientDTO>> findByNom(
+//            @RequestParam(value = "page", defaultValue = "0") int page,
+//            @RequestParam(value = "size", defaultValue = "20") int size,
+//            @RequestParam String nom
+//    ) {
+//
+//        Page<PatientDTO> patients = patientService.findByNom(nom,size,page);
+//        return ResponseEntity.ok(patients);
+//    }
 
 
 }
