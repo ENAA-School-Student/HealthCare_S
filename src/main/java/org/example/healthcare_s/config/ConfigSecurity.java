@@ -1,5 +1,4 @@
 package org.example.healthcare_s.config;
-
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.service.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
@@ -33,10 +32,16 @@ public class ConfigSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                )
+
+                        .authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/patients/**").hasAnyRole("PATIENT", "ADMIN")
+                                .requestMatchers("/medecins/**").hasAnyRole("DOCTOR", "ADMIN")
+                                .requestMatchers("/dossierMedical/**").hasAnyRole("DOCTOR","ADMIN")
+                                .requestMatchers("/rendezvous/**").hasAnyRole("ADMIN","PATIENT")
+                                .anyRequest().authenticated()
+                        )
+
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

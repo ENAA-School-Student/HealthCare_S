@@ -1,12 +1,14 @@
 package org.example.healthcare_s.controller;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.PatientDTO;
+import org.example.healthcare_s.repository.PatientRepository;
 import org.example.healthcare_s.service.PatientService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +18,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PatientController {
     private final  PatientService patientService;
+    private final PatientRepository patientRepository;
     @PostMapping
     public ResponseEntity<PatientDTO>ajouterPatient(@Valid @RequestBody PatientDTO patientDTO){
         return ResponseEntity.ok(patientService.ajouterPatient(patientDTO));
 
     }
+    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping
     public List<PatientDTO>listerPatients(){
         return patientService.listerPatients();
@@ -30,7 +35,9 @@ public class PatientController {
         return ResponseEntity.ok(patientService.modifierPatient(id,patientDTO));
 
     }
-   @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void>supprimerPatient(@PathVariable long id){
         patientService.supprimerPatient(id);
         return ResponseEntity.ok().build();
@@ -39,6 +46,27 @@ public class PatientController {
     public ResponseEntity<PatientDTO>consulterPatient(@PathVariable long id){
         return ResponseEntity.ok(patientService.consulterPatient(id));
    }
+
+    @GetMapping("/PatientsNomDec")
+    ResponseEntity<Page<PatientDTO>> findAllPatientByNomDesc(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size
+    ) {
+
+        Page<PatientDTO> patients = patientService.findAllByOrderByNomDesc(size,page);
+        return ResponseEntity.ok(patients);
+    }
+
+    @GetMapping("/PatientsNom")
+    ResponseEntity<Page<PatientDTO>> findByNom(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam String nom
+    ) {
+
+        Page<PatientDTO> patients = patientService.findByNom(nom,size,page);
+        return ResponseEntity.ok(patients);
+    }
 
 
 }
