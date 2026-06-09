@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.RendezVousDTO;
 import org.example.healthcare_s.entity.RendezVous;
 import org.example.healthcare_s.service.RendezVousService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -30,6 +31,7 @@ public class   RendezVousController {
             ){
         return ResponseEntity.ok(rendezVousService.modifierRendezVous(id,rendezVousDTO,medecin_id,patient_id));
     }
+    @Cacheable(value="rendezvous",key="'all'")
     @GetMapping
     public List<RendezVousDTO> listerRendezVous(){
         return rendezVousService.listerRendezVous();
@@ -40,6 +42,7 @@ public class   RendezVousController {
     public RendezVousDTO annulerRendezVous(@PathVariable long id,@RequestBody RendezVousDTO rendezVousDTO){
          return rendezVousService.annulerRendezVous(id,rendezVousDTO);
     }
+
     @GetMapping("/chercherParPatient/{id}")
     public List<RendezVousDTO>chercherparPatient(@PathVariable long id){
         return rendezVousService.rechercherRendezVousParPatient(id);

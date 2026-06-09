@@ -72,6 +72,15 @@ public class DossierMedicalService {
         DossierMedical dossierMedical1=dossierMedicalRepository.save(dossierMedical);
         return dossierMedicalMapper.toDTO(dossierMedical1);
     }
+    public DossierMedicalDTO  ajouterdossierMedicalParPatient(long idPatient,DossierMedicalDTO dossierMedicalDTO){
+        DossierMedical dossierMedical=dossierMedicalMapper.toEntity(dossierMedicalDTO);
+        Patient patient=patientRepository.findById(idPatient).orElseThrow();
+        dossierMedical.setPatient(patient);
+        DossierMedical dossierMedicalSaved=dossierMedicalRepository.save(dossierMedical);
+        return dossierMedicalMapper.toDTO(dossierMedicalSaved);
+
+    }
+
 
 
 }
