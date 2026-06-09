@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.DossierMedicalDTO;
 import org.example.healthcare_s.dto.MedecinDTO;
 import org.example.healthcare_s.service.DossierMedicalService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,9 +52,17 @@ public class DossierMedicalController {
 
 
     }
+
     @GetMapping
     public List<DossierMedicalDTO> listerDossiers(){
         return dossierMedicalService.listerDossiers();
     }
+
+    @GetMapping("/dossierMedicalParPatient/{idPatient}")
+    public ResponseEntity dossierMedicalParPatient(@PathVariable long idPatient) {
+        return ResponseEntity.ok(dossierMedicalService.dossierMedicalParPatient(idPatient));
+
+    }
+
 
 }

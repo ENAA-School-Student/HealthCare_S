@@ -99,6 +99,14 @@ public class DossierMedicalService {
         return dossierMedicalMapper.toDTOList(dossierMedicals);
     }
 
+    @Cacheable(value="dossiersmedical-parPatient",key="#idPatient")
+    public DossierMedicalDTO dossierMedicalParPatient(long idPatient){
+        Patient patient=patientRepository.findById(idPatient).orElseThrow();
+        DossierMedical dossierMedical=patient.getDossierMedical();
+        return dossierMedicalMapper.toDTO(dossierMedical);
+
+    }
+
 
 
 }
