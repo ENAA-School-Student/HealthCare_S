@@ -5,6 +5,7 @@ import org.example.healthcare_s.dto.MedecinDTO;
 import org.example.healthcare_s.entity.Medecin;
 import org.example.healthcare_s.mapper.MedecinMapper;
 import org.example.healthcare_s.repository.MedecinRepository;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class MedecinService {
     private final MedecinRepository medecinRepository;
     private final MedecinMapper medecinMapper;
 
+    @CacheEvict(value="medecins",allEntries = true)
 
     public MedecinDTO ajouterMedecin(MedecinDTO medecinDTO){
         Medecin medecin=medecinMapper.toEntity(medecinDTO);
@@ -23,6 +25,7 @@ public class MedecinService {
         return medecinMapper.toDTO(savedMedecin);
 
     }
+    @CacheEvict(value="medecins",allEntries = true)
 
     public MedecinDTO modifierMedecin(long id ,MedecinDTO medecinDTO){
         if(!medecinRepository.existsById(id)){
@@ -34,6 +37,7 @@ public class MedecinService {
         return medecinMapper.toDTO(savedMedecin);
 
     }
+    @CacheEvict(value="medecins",allEntries = true)
 
     public void supprimerMedecin(long id){
         if(!medecinRepository.existsById(id)){

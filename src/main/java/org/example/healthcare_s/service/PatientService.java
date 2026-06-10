@@ -1,4 +1,5 @@
 package org.example.healthcare_s.service;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -21,13 +22,14 @@ public class PatientService {
         this.patientMapper = patientMapper;
     }
 
-
+@CacheEvict(value="patients",allEntries = true)
     public PatientDTO ajouterPatient(PatientDTO patientDTO){
         Patient patient=patientMapper.toEntity(patientDTO);
         Patient savedPatient=patientRepository.save(patient);
         return patientMapper.toDTO(savedPatient);
 
     }
+    @CacheEvict(value="patients",allEntries = true)
 
     public PatientDTO modifierPatient(long id,PatientDTO patientDTO){
         if (!patientRepository.existsById(id)){
@@ -46,6 +48,8 @@ public class PatientService {
         List<Patient> clients=patientRepository.findAll();
         return patientMapper.toDTOList(clients);
     }
+    @CacheEvict(value="patients",allEntries = true)
+
     public void  supprimerPatient(Long id){
         if(!patientRepository.existsById(id)){
             throw new RuntimeException("Erreur");
@@ -53,6 +57,7 @@ public class PatientService {
 
         patientRepository.deleteById(id);
     }
+    @Cacheable(value="patients",key="#id")
     public PatientDTO consulterPatient(long id){
         Patient patient=patientRepository.findById(id).orElseThrow();
         return patientMapper.toDTO(patient);

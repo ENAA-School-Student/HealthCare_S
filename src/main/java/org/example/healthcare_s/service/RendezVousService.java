@@ -9,11 +9,11 @@ import org.example.healthcare_s.mapper.RendezVousMapper;
 import org.example.healthcare_s.repository.MedecinRepository;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.example.healthcare_s.repository.RendezVousRepository;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ public class RendezVousService {
     private final MedecinRepository medecinRepository;
     private final PatientRepository patientRepository;
 
-
+@CacheEvict(value = "rendezvous",allEntries = true)
     public RendezVousDTO creerRendezVous(long medecin_id, long patient_id, RendezVousDTO rendezVousDTO) {
         RendezVous rendezVous = rendezVousMapper.toEntity(rendezVousDTO);
         Medecin medecin = medecinRepository.findById(medecin_id).orElseThrow();
@@ -35,7 +35,7 @@ public class RendezVousService {
         return rendezVousMapper.toDTO(savedRendezVous);
 
     }
-
+    @CacheEvict(value = "rendezvous",allEntries = true)
     public RendezVousDTO modifierRendezVous(
             long id, RendezVousDTO rendezVousDTO,
             long medecin_id, long patient_id) {
@@ -59,7 +59,7 @@ public class RendezVousService {
 
 
     }
-
+    @CacheEvict(value="rendezvous",key="#id")
     public RendezVousDTO annulerRendezVous(long id, RendezVousDTO rendezVousDTO) {
         if (rendezVousRepository.findById(id).isEmpty()) {
             throw new RuntimeException("Erreur");
@@ -70,13 +70,14 @@ public class RendezVousService {
         return rendezVousMapper.toDTO(rendezVousreturne);
 
     }
+    @Cacheable(value = "rendezvous",key="#id")
 
     public List<RendezVousDTO> rechercherRendezVousParPatient(long id) {
         List<RendezVous> rendezVousList = rendezVousRepository.rechercherRendezVousParPatient(id);
         return rendezVousList.stream().map(rendezVousMapper::toDTO).toList();
 
     }
-
+    @Cacheable(value = "rendezvous",key="#id")
     public List<RendezVousDTO> rechercherRendezVousParMedecin(long id) {
         List<RendezVous> rendezVousList = rendezVousRepository.rechercherRendezVousParmedecin(id);
         return rendezVousList.stream().map(rendezVousMapper::toDTO).toList();

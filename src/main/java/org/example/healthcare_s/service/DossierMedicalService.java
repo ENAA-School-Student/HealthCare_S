@@ -16,6 +16,7 @@ import org.example.healthcare_s.repository.MedecinRepository;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,6 +33,7 @@ public class DossierMedicalService {
 
 
     @Transactional
+    @CacheEvict(value="dossierMedicals",allEntries = true)
     public DossierMedicalDTO creeDossierMedical(long medecin_id, long patient_id, DossierMedicalDTO dossierMedicalDTO){
         if(dossierMedicalRepository.existsByPatientId(patient_id))
         {
@@ -47,12 +49,18 @@ public class DossierMedicalService {
         return dossierMedicalMapper.toDTO(dossierMedicalSaved);
 
     }
-
+    @Cacheable(value="dossierMedicals",key="#id")
     public DossierMedicalDTO consulterDossierMedical(long id){
         DossierMedical dossierMedical=dossierMedicalRepository.findById(id).orElseThrow();
         return dossierMedicalMapper.toDTO(dossierMedical);
     }
+    @CacheEvict(value="dossierMedicals",allEntries = true)
+@Caching(evict = {
+        @CacheEvict(value="dossierMedicals",key = "#id"),
+        @CacheEvict(value="dossierMedicals",allEntries = true),
+        @CacheEvict(value="dossiersParPatient",allEntries = true)
 
+})
     public DossierMedicalDTO ajouterDiagnostic(long id,String diagnostic){
 
         DossierMedical dossierMedical= dossierMedicalRepository.findById(id).orElse(null);
@@ -66,7 +74,11 @@ public class DossierMedicalService {
 
     }
 
-
+    @Caching(evict = {
+            @CacheEvict(value = "dossierMedicals", key = "#id"),
+            @CacheEvict(value = "listeDossiers", allEntries = true),
+            @CacheEvict(value = "dossiersParPatient", allEntries = true)
+    })
     public DossierMedicalDTO ajouterObservations(long id,String observations){
         DossierMedical dossierMedical=dossierMedicalRepository.findById(id).orElse(null);
         if(dossierMedical == null){
@@ -77,7 +89,10 @@ public class DossierMedicalService {
         return dossierMedicalMapper.toDTO(dossierMedical1);
     }
     @Transactional
-    @CacheEvict(value = "first", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "listeDossiers", allEntries = true),
+            @CacheEvict(value = "dossiersParPatient", key = "#idPatient")
+    })@CacheEvict(value = "dossierMedicals", allEntries = true)
     public DossierMedicalDTO  ajouterdossierMedicalParPatient(long idPatient,DossierMedicalDTO dossierMedicalDTO){
         DossierMedical dossierMedical=dossierMedicalMapper.toEntity(dossierMedicalDTO);
         Patient patient=patientRepository.findById(idPatient).orElseThrow();
@@ -101,7 +116,7 @@ public class DossierMedicalService {
         return dossierMedicalMapper.toDTOList(dossierMedicals);
     }
 
-    @Cacheable(value="dossiersmedical-parPatient",key="#idPatient")
+    @Cacheable(value="dossiersParPatient",key="#idPatient")
     public DossierMedicalDTO dossierMedicalParPatient(long idPatient){
         Patient patient=patientRepository.findById(idPatient).orElseThrow();
         DossierMedical dossierMedical=patient.getDossierMedical();

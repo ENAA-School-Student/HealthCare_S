@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.DossierMedicalDTO;
 import org.example.healthcare_s.dto.MedecinDTO;
 import org.example.healthcare_s.service.DossierMedicalService;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,6 @@ public class DossierMedicalController {
     @PostMapping("/dossierMedicalParPatient/{idPatient}")
     public ResponseEntity<DossierMedicalDTO> ajouterdossierMedicalParPatient(@PathVariable long idPatient,@RequestBody DossierMedicalDTO dossierMedicalDTO) {
         return ResponseEntity.ok(dossierMedicalService.ajouterdossierMedicalParPatient(idPatient,dossierMedicalDTO));
-
 
     }
 
