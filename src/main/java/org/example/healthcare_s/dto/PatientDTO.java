@@ -21,6 +21,7 @@ public class PatientDTO implements Serializable {
     private String nom;
     @NotBlank(message="ce champs est obligatoire")
     private String prenom;
+    private String email;
     private String telephone;
     private LocalDate dateNaissance;
 }

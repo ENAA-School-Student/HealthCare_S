@@ -3,11 +3,14 @@ package org.example.healthcare_s.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare_s.dto.PatientDTO;
+import org.example.healthcare_s.entity.Patient;
 import org.example.healthcare_s.repository.PatientRepository;
+import org.example.healthcare_s.service.GenerationPdf;
 import org.example.healthcare_s.service.PatientService;
-import org.springframework.data.domain.Page;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +22,7 @@ import java.util.List;
 public class PatientController {
     private final  PatientService patientService;
     private final PatientRepository patientRepository;
+    private final GenerationPdf generationPdf;
     @PostMapping
     public ResponseEntity<PatientDTO>ajouterPatient(@Valid @RequestBody PatientDTO patientDTO){
         return ResponseEntity.ok(patientService.ajouterPatient(patientDTO));
@@ -46,6 +50,20 @@ public class PatientController {
     public ResponseEntity<PatientDTO>consulterPatient(@PathVariable long id){
         return ResponseEntity.ok(patientService.consulterPatient(id));
    }
+   @GetMapping("/{id}/rendezvous/download")
+    public ResponseEntity<byte[]> downloadRendezVousPdf(@PathVariable long id){
+       Patient patient = patientRepository.findById(id)
+               .orElseThrow(() -> new RuntimeException("Patient non trouvé avec l'id : " + id));
+       byte[]pdfBytes=generationPdf.genererPdfRendezVousPatient(patient);
+       HttpHeaders headers = new HttpHeaders();
+       headers.setContentType(MediaType.APPLICATION_PDF);
+       String patientNom = patient.getNom().replaceAll("\\s+", "_");
+       String filename = "rendezvous_" + patientNom + "_" + id + ".pdf";
+       headers.setContentDispositionFormData("attachment", filename);
+       headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+       return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+       
+    }
 //
 //    @GetMapping("/PatientsNomDec")
 //    ResponseEntity<Page<PatientDTO>> findAllPatientByNomDesc(
