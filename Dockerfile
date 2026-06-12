@@ -1,27 +1,27 @@
-
-#FROM eclipse-temurin:21-jdk-alpine
-#COPY target/*.jar app.jar
-#ENTRYPOINT ["java", "-jar", "app.jar"]
-
-# Importing JDK and copying required files
-FROM openjdk:21-jdk AS build
+# Étape 1 : Compilation avec une image Maven officielle et stable
+FROM maven:3.9.8-eclipse-temurin-21 AS build
 WORKDIR /app
+
+# 1. Copier le pom.xml pour télécharger les dépendances (MapStruct, Spring, etc.)
 COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# 2. Copier le code source
 COPY src src
 
-# Copy Maven wrapper
-COPY mvnw .
-COPY .mvn .mvn
+# 3. Compiler le projet en créant le JAR (et générer les mappers MapStruct automatiquement)
+RUN mvn clean package -DskipTests
 
-# Set execution permission for the Maven wrapper
-RUN chmod +x ./mvnw
-RUN ./mvnw clean package -DskipTests
-
-# Stage 2: Create the final Docker image using OpenJDK 19
-FROM openjdk:21-jdk
+# Étape 2 : Création de l'image d'exécution finale (légère)
+FROM eclipse-temurin:21-jre
+WORKDIR /app
 VOLUME /tmp
 
-# Copy the JAR from the build stage
+# Copier le fichier JAR généré à l'étape 1
 COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+# Exposer le port réseau
 EXPOSE 8080
+
+# Lancer l'application
+ENTRYPOINT ["java", "-jar", "app.jar"]
