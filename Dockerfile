@@ -15,7 +15,6 @@ RUN mvn clean package -DskipTests
 # Étape 2 : Création de l'image d'exécution finale (légère)
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-VOLUME /tmp
 
 # Copier le fichier JAR généré à l'étape 1
 COPY --from=build /app/target/*.jar app.jar
