@@ -19,8 +19,6 @@ public class ConfigRedis {
                 .cacheDefaults(configuration)
                 .build();
 
-
-
     }
 
 }

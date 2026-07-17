@@ -28,7 +28,7 @@ public class PatientController {
         return ResponseEntity.ok(patientService.ajouterPatient(patientDTO));
 
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
 
     @GetMapping
     public List<PatientDTO>listerPatients(){
@@ -39,7 +39,6 @@ public class PatientController {
         return ResponseEntity.ok(patientService.modifierPatient(id,patientDTO));
 
     }
-    @PreAuthorize("hasRole('ADMIN')")
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void>supprimerPatient(@PathVariable long id){
