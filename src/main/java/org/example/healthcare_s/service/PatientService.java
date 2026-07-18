@@ -7,6 +7,8 @@ import org.example.healthcare_s.dto.PatientDTO;
 import org.example.healthcare_s.entity.Patient;
 import org.example.healthcare_s.mapper.PatientMapper;
 import org.example.healthcare_s.repository.PatientRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,14 +24,14 @@ public class PatientService {
         this.patientMapper = patientMapper;
     }
 
-@CacheEvict(value="patients",allEntries = true)
+//@CacheEvict(value="patients",allEntries = true)
     public PatientDTO ajouterPatient(PatientDTO patientDTO){
         Patient patient=patientMapper.toEntity(patientDTO);
         Patient savedPatient=patientRepository.save(patient);
         return patientMapper.toDTO(savedPatient);
 
     }
-    @CacheEvict(value="patients",allEntries = true)
+//    @CacheEvict(value="patients",allEntries = true)
 
     public PatientDTO modifierPatient(long id,PatientDTO patientDTO){
         if (!patientRepository.existsById(id)){
@@ -41,14 +43,14 @@ public class PatientService {
         return patientMapper.toDTO(patientUpdated);
 
     }
-   @Cacheable(value="patients",key="'all'")
+//   @Cacheable(value="patients",key="'all'")
 //    @Cacheable(value="patients")
     public List<PatientDTO>listerPatients(){
         System.out.println("=========================================test Redis================");
         List<Patient> clients=patientRepository.findAll();
         return patientMapper.toDTOList(clients);
     }
-    @CacheEvict(value="patients",allEntries = true)
+//    @CacheEvict(value="patients",allEntries = true)
 
     public void  supprimerPatient(Long id){
         if(!patientRepository.existsById(id)){
@@ -57,10 +59,16 @@ public class PatientService {
 
         patientRepository.deleteById(id);
     }
-    @Cacheable(value="patients",key="#id")
+//    @Cacheable(value="patients",key="#id")
     public PatientDTO consulterPatient(long id){
         Patient patient=patientRepository.findById(id).orElseThrow();
         return patientMapper.toDTO(patient);
+
+    }
+    public Page<PatientDTO> getPatientsPagines(Pageable pageable){
+        Page<Patient> patients=patientRepository.findAll(pageable);
+        return patients.map(patientMapper::toDTO);
+
     }
 
 }

@@ -7,6 +7,8 @@ import org.example.healthcare_s.entity.Patient;
 import org.example.healthcare_s.repository.PatientRepository;
 import org.example.healthcare_s.service.GenerationPdf;
 import org.example.healthcare_s.service.PatientService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -84,6 +86,12 @@ public class PatientController {
 //        Page<PatientDTO> patients = patientService.findByNom(nom,size,page);
 //        return ResponseEntity.ok(patients);
 //    }
+
+
+    @GetMapping("/patientPagines")
+    public Page<PatientDTO> getPatientsPagines(Pageable pageable){
+        return patientService.getPatientsPagines(pageable);
+    }
 
 
 }
