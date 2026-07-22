@@ -1,10 +1,11 @@
 package org.example.healthcare_s.service.security;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -17,20 +18,24 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-
 @Component
 public class JwtService {
 
-    private static final String SECRET_KEY =
-            "my_super_secure_secret_key_for_jwt_2026_healthcare_app";
+    @Value("${application.security.jwt.secret-key}")
+    private String secretKeyFromProperties;
+
+    private Key getSignKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKeyFromProperties);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 
     public String generateToken(UserDetails userDetails) {
-
-        Map<String,Object> claims= new HashMap<>();
-        List<String> roles=userDetails.getAuthorities().stream()
+        Map<String, Object> claims = new HashMap<>();
+        List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-        claims.put("roles",roles);
+        claims.put("roles", roles);
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
@@ -40,10 +45,7 @@ public class JwtService {
                 .compact();
     }
 
-
-
     public String extractUsername(String token) {
-
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -53,12 +55,10 @@ public class JwtService {
     }
 
     private Date extractExpiration(String token) {
-
         return extractClaim(token, Claims::getExpiration);
     }
 
     private boolean isTokenExpired(String token) {
-
         return extractExpiration(token).before(new Date());
     }
 
@@ -74,9 +74,4 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-    private Key getSignKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-    }
 }
-
