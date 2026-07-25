@@ -30,6 +30,9 @@ public class MedecinController {
          medecinService.supprimerMedecin(id);
          return ResponseEntity.ok().build();
     }
+
+
+
     @GetMapping
     public List<MedecinDTO>listerMedecins(){
         return medecinService.listerMedecins();

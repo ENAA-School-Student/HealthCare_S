@@ -52,4 +52,6 @@ public class MedecinService {
         List<Medecin>medecinList=medecinRepository.findAll();
         return medecinMapper.toDTOList(medecinList);
     }
+
+
 }

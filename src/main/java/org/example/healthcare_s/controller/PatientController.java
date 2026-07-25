@@ -30,7 +30,10 @@ public class PatientController {
         return ResponseEntity.ok(patientService.ajouterPatient(patientDTO));
 
     }
-
+@GetMapping("/count")
+public long count(){
+        return patientService.count();
+}
 
     @GetMapping
     public List<PatientDTO>listerPatients(){

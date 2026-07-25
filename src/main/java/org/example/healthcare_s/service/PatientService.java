@@ -59,6 +59,9 @@ public class PatientService {
 
         patientRepository.deleteById(id);
     }
+    public long count(){
+        return patientRepository.count();
+    }
 //    @Cacheable(value="patients",key="#id")
     public PatientDTO consulterPatient(long id){
         Patient patient=patientRepository.findById(id).orElseThrow();
