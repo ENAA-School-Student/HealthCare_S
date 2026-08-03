@@ -22,14 +22,14 @@ public class PatientService {
         this.patientMapper = patientMapper;
     }
 
-@CacheEvict(value="patients",allEntries = true)
+//@CacheEvict(value="patients",allEntries = true)
     public PatientDTO ajouterPatient(PatientDTO patientDTO){
         Patient patient=patientMapper.toEntity(patientDTO);
         Patient savedPatient=patientRepository.save(patient);
         return patientMapper.toDTO(savedPatient);
 
     }
-    @CacheEvict(value="patients",allEntries = true)
+//    @CacheEvict(value="patients",allEntries = true)
 
     public PatientDTO modifierPatient(long id,PatientDTO patientDTO){
         if (!patientRepository.existsById(id)){
@@ -41,7 +41,7 @@ public class PatientService {
         return patientMapper.toDTO(patientUpdated);
 
     }
-   @Cacheable(value="patients",key="'all'")
+//   @Cacheable(value="patients",key="'all'")
 //    @Cacheable(value="patients")
     public List<PatientDTO>listerPatients(){
         System.out.println("=========================================test Redis================");
