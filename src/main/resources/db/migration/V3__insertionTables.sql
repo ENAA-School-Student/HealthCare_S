@@ -1,4 +1,4 @@
-INSERT INTO patient (nom, prenom, email, telephone, date_naissance)
+﻿INSERT INTO patient (nom, prenom, email, telephone, date_naissance)
 VALUES
     ('Alaoui', 'Yassine', 'yassine.alaoui@gmail.com', '0612345678', '1998-05-12'),
     ('Bennani', 'Sara', 'sara.bennani@gmail.com', '0623456789', '2000-09-25'),
@@ -16,9 +16,9 @@ INSERT INTO medecin (nom, specialite, email, telephone)
 VALUES
     ('Karimi', 'Cardiologue', 'karimi@gmail.com', '0654321098'),
     ('Tazi', 'Dermatologue', 'tazi@gmail.com', '0665432109'),
-    ('Lahlou', 'Pédiatre', 'lahlou@gmail.com', '0676543210'),
+    ('Lahlou', 'Pediatre', 'lahlou@gmail.com', '0676543210'),
     ('Berrada', 'Neurologue', 'berrada@gmail.com', '0687654321'),
-    ('Sefrioui', 'Généraliste', 'sefrioui@gmail.com', '0698765432'),
+    ('Sefrioui', 'Generaliste', 'sefrioui@gmail.com', '0698765432'),
     ('Aouad', 'Ophtalmologue', 'aouad@gmail.com', '0609988776'),
     ('Cherkaoui', 'Radiologue', 'cherkaoui@gmail.com', '0612233445'),
     ('Majidi', 'Dentiste', 'majidi@gmail.com', '0623344556'),
@@ -29,15 +29,15 @@ VALUES
 INSERT INTO dossier_medical (diagnostic, observations, date_creation, medecin_id, patient_id)
 VALUES
     ('Hypertension', 'Patient sous traitement', '2026-05-20', 1, 1),
-    ('Allergie cutanée', 'Réaction légère observée', '2026-05-18', 2, 2),
-    ('Fièvre', 'Repos recommandé', '2026-05-15', 3, 3),
-    ('Migraine', 'Scanner demandé', '2026-05-12', 4, 4),
-    ('Diabète', 'Contrôle glycémie régulier', '2026-05-10', 5, 5),
+    ('Allergie cutanee', 'Reaction legere observee', '2026-05-18', 2, 2),
+    ('Fievre', 'Repos recommande', '2026-05-15', 3, 3),
+    ('Migraine', 'Scanner demande', '2026-05-12', 4, 4),
+    ('Diabete', 'Controle glycemie regulier', '2026-05-10', 5, 5),
     ('Conjonctivite', 'Traitement de 7 jours', '2026-05-08', 6, 6),
     ('Asthme', 'Utilisation inhalateur', '2026-05-06', 7, 7),
-    ('Fatigue chronique', 'Analyse sanguine demandée', '2026-05-04', 8, 8),
+    ('Fatigue chronique', 'Analyse sanguine demandee', '2026-05-04', 8, 8),
     ('Otite', 'Antibiotiques prescrits', '2026-05-02', 9, 9),
-    ('Stress', 'Repos conseillé', '2026-05-01', 10, 10);
+    ('Stress', 'Repos conseille', '2026-05-01', 10, 10);
 
 
 INSERT INTO rendez_vous (date_rendez_vous, statut, patient_id, medecin_id)
