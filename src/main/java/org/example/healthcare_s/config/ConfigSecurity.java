@@ -1,5 +1,6 @@
 package org.example.healthcare_s.config;
 import lombok.RequiredArgsConstructor;
+import org.example.healthcare_s.enums.Role;
 import org.example.healthcare_s.service.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,10 +55,10 @@ public class ConfigSecurity {
 
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/patients", "/patients/**").hasAnyRole("PATIENT", "ADMIN")
-                                .requestMatchers("/medecins", "/medecins/**").hasAnyRole("DOCTOR", "ADMIN")
-                                .requestMatchers("/dossierMedical", "/dossierMedical/**").hasAnyRole("DOCTOR","ADMIN")
-                                .requestMatchers("/rendezvous", "/rendezvous/**").hasAnyRole("ADMIN","PATIENT")
+                                .requestMatchers("/patients", "/patients/**").hasAnyAuthority(Role.ROLE_PATIENT.name(), Role.ROLE_ADMIN.name())
+                                .requestMatchers("/medecins", "/medecins/**").hasAnyAuthority(Role.ROLE_DOCTOR.name(), Role.ROLE_ADMIN.name())
+                                .requestMatchers("/dossierMedical", "/dossierMedical/**").hasAnyAuthority(Role.ROLE_DOCTOR.name(),Role.ROLE_ADMIN.name())
+                                .requestMatchers("/rendezvous", "/rendezvous/**").hasAnyAuthority(Role.ROLE_ADMIN.name(),Role.ROLE_PATIENT.name())
                                 .anyRequest().authenticated()
                         )
 

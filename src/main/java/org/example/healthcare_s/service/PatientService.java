@@ -63,4 +63,10 @@ public class PatientService {
         return patientMapper.toDTO(patient);
     }
 
+    public PatientDTO filtrerParNomEtPrenom(String nom){
+        Patient patient=patientRepository.findPatientByNomOrPrenom(nom);
+        return patientMapper.toDTO(patient);
+
+    }
+
 }

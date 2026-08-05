@@ -28,8 +28,8 @@ public class PatientController {
         return ResponseEntity.ok(patientService.ajouterPatient(patientDTO));
 
     }
-    @PreAuthorize("hasRole('ADMIN')")
 
+    @PreAuthorize("hasAnyRole('ROLE_PATIENT','ROLE_ADMIN')")
     @GetMapping
     public List<PatientDTO>listerPatients(){
         return patientService.listerPatients();
@@ -63,6 +63,11 @@ public class PatientController {
        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
        
+    }
+    @GetMapping("/TriePar/{nom}")
+    public ResponseEntity<PatientDTO>TrieParNomOUPrenom(@PathVariable String nom){
+        return ResponseEntity.ok(patientService.filtrerParNomEtPrenom(nom));
+
     }
 //
 //    @GetMapping("/PatientsNomDec")

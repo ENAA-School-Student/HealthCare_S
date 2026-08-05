@@ -17,4 +17,13 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
     @Query("SELECT p FROM Patient p LEFT JOIN FETCH p.rendezVous WHERE p.id = :id")
     Optional<Patient> findById(@Param("id") Long id);
 
+//    Patient findPatientByNomOrPrenom(String nom, String prenom);
+
+    @Query(value = "SELECT * FROM PATIENT WHERE  NOM LIKE '%nom%' OR PRENOM  LIKE '%nom%'",nativeQuery = true )
+    Patient findPatientByNomOrPrenom(String nom);
+
+
+
+
+
 }

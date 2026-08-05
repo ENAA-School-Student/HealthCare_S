@@ -60,6 +60,7 @@ public class AuthService {
                 )
         );
         UserDetails user = (UserDetails) auth.getPrincipal();
+        System.out.println("////////////////////////////"+user.getAuthorities().toString());
         return jwtService.generateToken(user);
     }
 
