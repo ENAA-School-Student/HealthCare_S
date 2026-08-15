@@ -32,5 +32,9 @@ public interface RendezVousRepository  extends JpaRepository<RendezVous,Long> {
     Page<RendezVous>findAllByStatut(String statut ,Pageable pageable);
 
 
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM RendezVous r WHERE r.patient.id = :patientId")
+    void deleteByPatientId(@Param("patientId") Long patientId);
 
 }

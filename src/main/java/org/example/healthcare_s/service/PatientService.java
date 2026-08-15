@@ -6,8 +6,13 @@ import jakarta.persistence.EntityNotFoundException;
 import org.example.healthcare_s.dto.PatientDTO;
 import org.example.healthcare_s.entity.Patient;
 import org.example.healthcare_s.mapper.PatientMapper;
+import org.example.healthcare_s.repository.DossierMedicalRepository;
 import org.example.healthcare_s.repository.PatientRepository;
+import org.example.healthcare_s.repository.RendezVousRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,10 +21,14 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
     private  final PatientMapper patientMapper;
+    private final RendezVousRepository rendezVousRepository;
+    private final DossierMedicalRepository dossierMedicalRepository;
 
-    public PatientService(PatientRepository patientRepository, PatientMapper patientMapper) {
+    public PatientService(PatientRepository patientRepository, PatientMapper patientMapper, RendezVousRepository rendezVousRepository, DossierMedicalRepository dossierMedicalRepository) {
         this.patientRepository = patientRepository;
         this.patientMapper = patientMapper;
+        this.rendezVousRepository = rendezVousRepository;
+        this.dossierMedicalRepository = dossierMedicalRepository;
     }
 
 //@CacheEvict(value="patients",allEntries = true)
@@ -48,13 +57,18 @@ public class PatientService {
         List<Patient> clients=patientRepository.findAll();
         return patientMapper.toDTOList(clients);
     }
-    @CacheEvict(value="patients",allEntries = true)
 
+    public Page<PatientDTO> listerPatients(int page, int size){
+        return patientRepository.findAll(PageRequest.of(page, size)).map(patientMapper::toDTO);
+    }
+    @CacheEvict(value="patients",allEntries = true)
+    @Transactional
     public void  supprimerPatient(Long id){
         if(!patientRepository.existsById(id)){
             throw new RuntimeException("Erreur");
         }
-
+        rendezVousRepository.deleteByPatientId(id);
+        dossierMedicalRepository.deleteByPatientId(id);
         patientRepository.deleteById(id);
     }
     @Cacheable(value="patients",key="#id")
