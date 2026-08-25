@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 //@Table(name="rendez_vous",uniqueConstraints =
@@ -22,6 +23,8 @@ public class RendezVous {
     private Long id;
     @Column(name = "date_rendez_vous")
     private LocalDate dateRendezVous;
+    @Column(name = "heure_rendez_vous")
+    private LocalTime heureRendezVous;
     private String statut;
     @ManyToOne
     @JoinColumn(name="patient_id")

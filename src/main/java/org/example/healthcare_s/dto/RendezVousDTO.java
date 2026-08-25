@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 public class RendezVousDTO implements Serializable {
     private Long id;
     private LocalDate dateRendezVous;
+    private LocalTime heureRendezVous;
     private String statut;
     private Long medecin_id;
     private Long patient_id;
