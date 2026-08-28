@@ -27,7 +27,47 @@ public class GlobalExceptionHandler {
         return errors;
     }
 
-    // 2. Keep Global Exception Handler (returns custom ApiError payload)
+    // 2. Access Denied (403) – Spring Security @PreAuthorize failures
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+    public ResponseEntity<ApiError> handleAccessDeniedException(
+            org.springframework.security.access.AccessDeniedException ex, WebRequest request) {
+        ApiError error = new ApiError(
+                HttpStatus.FORBIDDEN.value(),
+                "Forbidden",
+                "Vous n'avez pas les permissions nécessaires pour effectuer cette action.",
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
+    // 3. Entity Not Found (404)
+    @ExceptionHandler({
+            jakarta.persistence.EntityNotFoundException.class,
+            java.util.NoSuchElementException.class
+    })
+    public ResponseEntity<ApiError> handleNotFoundException(Exception ex, WebRequest request) {
+        ApiError error = new ApiError(
+                HttpStatus.NOT_FOUND.value(),
+                "Not Found",
+                ex.getMessage() != null ? ex.getMessage() : "La ressource demandée n'existe pas.",
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    // 4. RuntimeException (400) – business logic errors
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiError> handleRuntimeException(RuntimeException ex, WebRequest request) {
+        ApiError error = new ApiError(
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage() != null ? ex.getMessage() : "Une erreur est survenue.",
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    // 5. Fallback – truly unexpected errors (500)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleGlobalException(Exception ex, WebRequest request) {
         ApiError error = new ApiError(

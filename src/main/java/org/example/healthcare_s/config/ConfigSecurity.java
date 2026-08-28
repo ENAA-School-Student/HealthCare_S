@@ -55,10 +55,12 @@ public class ConfigSecurity {
 
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/patients", "/patients/**").hasAnyAuthority(Role.ROLE_PATIENT.name(), Role.ROLE_ADMIN.name())
+                                .requestMatchers("/patients", "/patients/**").hasAnyAuthority(Role.ROLE_PATIENT.name(), Role.ROLE_ADMIN.name(), Role.ROLE_DOCTOR.name())
+                                .requestMatchers(org.springframework.http.HttpMethod.GET, "/medecins", "/medecins/**").hasAnyAuthority(Role.ROLE_DOCTOR.name(), Role.ROLE_ADMIN.name(), Role.ROLE_PATIENT.name())
                                 .requestMatchers("/medecins", "/medecins/**").hasAnyAuthority(Role.ROLE_DOCTOR.name(), Role.ROLE_ADMIN.name())
-                                .requestMatchers("/dossierMedical", "/dossierMedical/**").hasAnyAuthority(Role.ROLE_DOCTOR.name(),Role.ROLE_ADMIN.name())
-                                .requestMatchers("/rendezvous", "/rendezvous/**").hasAnyAuthority(Role.ROLE_ADMIN.name(),Role.ROLE_PATIENT.name())
+                                .requestMatchers(org.springframework.http.HttpMethod.GET, "/dossierMedical", "/dossierMedical/**").hasAnyAuthority(Role.ROLE_DOCTOR.name(), Role.ROLE_ADMIN.name(), Role.ROLE_PATIENT.name())
+                                .requestMatchers("/dossierMedical", "/dossierMedical/**").hasAnyAuthority(Role.ROLE_DOCTOR.name(), Role.ROLE_ADMIN.name())
+                                .requestMatchers("/rendezvous", "/rendezvous/**").hasAnyAuthority(Role.ROLE_ADMIN.name(), Role.ROLE_PATIENT.name())
                                 .anyRequest().authenticated()
                         )
 

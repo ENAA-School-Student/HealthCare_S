@@ -17,6 +17,8 @@ import org.example.healthcare_s.repository.PatientRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -114,6 +116,34 @@ public class DossierMedicalService {
         System.out.println("=========================================test Redis================");
         List<DossierMedical> dossierMedicals=dossierMedicalRepository.findAll();
         return dossierMedicalMapper.toDTOList(dossierMedicals);
+    }
+
+    public Page<DossierMedicalDTO> listerDossiers(int page, int size){
+        return dossierMedicalRepository.findAll(PageRequest.of(page, size)).map(dossierMedicalMapper::toDTO);
+    }
+
+    @Transactional
+    @CacheEvict(value = "dossierMedicals", allEntries = true)
+    public DossierMedicalDTO modifierDossierMedical(long id, long medecin_id, long patient_id, DossierMedicalDTO dossierMedicalDTO){
+        DossierMedical existing = dossierMedicalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Le dossier médical n'existe pas avec l'id : " + id));
+        DossierMedical dossierMedical = dossierMedicalMapper.toEntity(dossierMedicalDTO);
+        dossierMedical.setId(id);
+        dossierMedical.setDateCreation(existing.getDateCreation());
+        Medecin medecin = medecinRepository.findById(medecin_id).orElse(null);
+        Patient patient = patientRepository.findById(patient_id).orElse(null);
+        dossierMedical.setMedecin(medecin);
+        dossierMedical.setPatient(patient);
+        DossierMedical dossierMedicalSaved = dossierMedicalRepository.save(dossierMedical);
+        return dossierMedicalMapper.toDTO(dossierMedicalSaved);
+    }
+
+    @CacheEvict(value = "dossierMedicals", allEntries = true)
+    public void supprimerDossierMedical(long id){
+        if (!dossierMedicalRepository.existsById(id)) {
+            throw new RuntimeException("Le dossier médical n'existe pas avec l'id : " + id);
+        }
+        dossierMedicalRepository.deleteById(id);
     }
 
     @Cacheable(value="dossiersParPatient",key="#idPatient")

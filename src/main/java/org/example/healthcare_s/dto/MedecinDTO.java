@@ -23,4 +23,5 @@ public class MedecinDTO implements Serializable {
     @Email(message="le format d'Email est invalide")
     private  String email;
     private String telephone;
+    private String password;
 }

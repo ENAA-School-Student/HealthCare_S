@@ -6,6 +6,7 @@ import org.example.healthcare_s.dto.RendezVousDTO;
 import org.example.healthcare_s.entity.RendezVous;
 import org.example.healthcare_s.service.RendezVousService;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ import java.util.List;
 public class   RendezVousController {
     private final RendezVousService rendezVousService;
     @PostMapping
-    public RendezVousDTO creeRendezVous(@RequestParam long medecin_id,long patient_id,@Valid @RequestBody RendezVousDTO rendezVousDTO){
+    public RendezVousDTO creeRendezVous(@RequestParam long medecin_id,@RequestParam long patient_id,@Valid @RequestBody RendezVousDTO rendezVousDTO){
         return rendezVousService.creerRendezVous(medecin_id,patient_id,rendezVousDTO);
 
     }
@@ -31,11 +32,21 @@ public class   RendezVousController {
             ){
         return ResponseEntity.ok(rendezVousService.modifierRendezVous(id,rendezVousDTO,medecin_id,patient_id));
     }
-    @Cacheable(value="rendezvous",key="'all'")
     @GetMapping
-    public List<RendezVousDTO> listerRendezVous(){
-        return rendezVousService.listerRendezVous();
+    public Page<RendezVousDTO> listerRendezVous(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) Long patientId) {
+        if (patientId != null) {
+            return rendezVousService.listerRendezVousParPatient(patientId, page, size);
+        }
+        return rendezVousService.listerRendezVous(page, size);
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> supprimerRendezVous(@PathVariable long id) {
+        rendezVousService.supprimerRendezVous(id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/annulerRendezVous/{id}")

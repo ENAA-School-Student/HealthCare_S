@@ -31,8 +31,10 @@ public class MedecinController {
          return ResponseEntity.ok().build();
     }
     @GetMapping
-    public List<MedecinDTO>listerMedecins(){
-        return medecinService.listerMedecins();
+    public Page<MedecinDTO> listerMedecins(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return medecinService.listerMedecins(page, size);
     }
 
 //    @GetMapping("/medecinsSpecialite")

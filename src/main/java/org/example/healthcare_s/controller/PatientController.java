@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +32,10 @@ public class PatientController {
 
     @PreAuthorize("hasAnyRole('ROLE_PATIENT','ROLE_ADMIN')")
     @GetMapping
-    public List<PatientDTO>listerPatients(){
-        return patientService.listerPatients();
+    public Page<PatientDTO> listerPatients(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return patientService.listerPatients(page, size);
     }
     @PutMapping("/{id}")
     public ResponseEntity<PatientDTO>modifierPatient(@PathVariable long id,@Valid @RequestBody PatientDTO patientDTO){

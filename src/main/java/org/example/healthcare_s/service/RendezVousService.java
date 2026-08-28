@@ -11,6 +11,8 @@ import org.example.healthcare_s.repository.PatientRepository;
 import org.example.healthcare_s.repository.RendezVousRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,6 +60,24 @@ public class RendezVousService {
         return rendezVousMapper.toDTOList(rendezVousList);
 
 
+    }
+
+    public Page<RendezVousDTO> listerRendezVous(int page, int size) {
+        Page<RendezVous> rendezVousList = rendezVousRepository.findAll(PageRequest.of(page, size));
+        return rendezVousList.map(rendezVousMapper::toDTO);
+    }
+
+    public Page<RendezVousDTO> listerRendezVousParPatient(Long patientId, int page, int size) {
+        Page<RendezVous> rendezVousList = rendezVousRepository.findByPatientId(patientId, PageRequest.of(page, size));
+        return rendezVousList.map(rendezVousMapper::toDTO);
+    }
+
+    @CacheEvict(value="rendezvous",allEntries = true)
+    public void supprimerRendezVous(long id) {
+        if (!rendezVousRepository.existsById(id)) {
+            throw new RuntimeException("Le rendez-vous n'existe pas avec l'id : " + id);
+        }
+        rendezVousRepository.deleteById(id);
     }
     @CacheEvict(value="rendezvous",key="#id")
     public RendezVousDTO annulerRendezVous(long id, RendezVousDTO rendezVousDTO) {

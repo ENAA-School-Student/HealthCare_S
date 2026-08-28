@@ -28,6 +28,8 @@ public interface RendezVousRepository  extends JpaRepository<RendezVous,Long> {
     List<RendezVous>rechercherRendezVousParmedecin(@Param("id")long id);
 
 
+    Page<RendezVous> findByPatientId(Long patientId, Pageable pageable);
+
     Page<RendezVous>findAllOrderByDateRendezVous(LocalDate date, Pageable pageable);
     Page<RendezVous>findAllByStatut(String statut ,Pageable pageable);
 

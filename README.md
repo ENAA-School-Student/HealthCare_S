@@ -1,7 +1,7 @@
 
-HealthCare+ API REST
+MediCare API REST
 
-HealthCare+ est une application backend développée dans le cadre de la transformation numérique d’un système médical.
+MediCare est une application backend développée dans le cadre de la transformation numérique d’un système médical.
 Le projet a pour objectif de concevoir une API REST complète permettant de gérer efficacement les patients, les médecins, les rendez-vous ainsi que les dossiers médicaux.
 
 L’application offre une architecture claire et professionnelle basée sur les technologies modernes de l’écosystème Spring Boot afin de garantir la maintenabilité, la performance et la sécurité des données médicales.

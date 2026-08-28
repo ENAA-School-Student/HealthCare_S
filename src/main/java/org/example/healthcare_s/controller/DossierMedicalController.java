@@ -6,6 +6,7 @@ import org.example.healthcare_s.dto.MedecinDTO;
 import org.example.healthcare_s.service.DossierMedicalService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,8 +55,25 @@ public class DossierMedicalController {
     }
 
     @GetMapping
-    public List<DossierMedicalDTO> listerDossiers(){
-        return dossierMedicalService.listerDossiers();
+    public Page<DossierMedicalDTO> listerDossiers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return dossierMedicalService.listerDossiers(page, size);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DossierMedicalDTO> modifierDossierMedical(
+            @PathVariable long id,
+            @RequestParam long medecin_id,
+            @RequestParam long patient_id,
+            @RequestBody DossierMedicalDTO dossierMedicalDTO) {
+        return ResponseEntity.ok(dossierMedicalService.modifierDossierMedical(id, medecin_id, patient_id, dossierMedicalDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> supprimerDossierMedical(@PathVariable long id) {
+        dossierMedicalService.supprimerDossierMedical(id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/dossierMedicalParPatient/{idPatient}")
